@@ -17,7 +17,10 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
     }
 
     public void ConfigurarEstaAtrasado(RelogioPonto entity, PreDefinicaoPonto preDefinicao) {
-        boolean estaAtrasda = entity.ValidarEstaAtrasado(preDefinicao);
+        boolean estaAtrasda = entity.ValidarEstaAtrasado(
+                preDefinicao.getFinalExpediente(),
+                preDefinicao.getMinutosTolerancia()
+        );
         entity.setEstaAtrasado(estaAtrasda);
     }
 }

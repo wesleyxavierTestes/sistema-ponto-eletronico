@@ -1,8 +1,6 @@
 package com.sistemapontoeletronico.domain.entities.relogioPonto;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +9,6 @@ import javax.persistence.ManyToOne;
 
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
-import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;
 
 import com.sistemapontoeletronico.utils.DateUtils;
 import lombok.*;
@@ -31,16 +28,21 @@ public class RelogioPonto extends BaseEntity {
     private LocalDateTime ponto;
     private boolean estaAtrasado;
 
-    public boolean ValidarEstaAtrasado(PreDefinicaoPonto preDefinicao) {
-        long toleranciaEmMilisegundos = DateUtils.GetMilisegundos(preDefinicao.getMinutosTolerancia());
+    public boolean ValidarEstaAtrasado(LocalDateTime expediente, long tolerancia) {
+        boolean estaAtrasado = ValidarEstaAtrasado(tolerancia, expediente, this.ponto);
+        return estaAtrasado;
+    }
 
-        long finalExpediente = DateUtils.GetMilisegundos(preDefinicao.getFinalExpediente());
-        long pontoMinimo = DateUtils.GetMilisegundos(this.ponto, - toleranciaEmMilisegundos);
-        long pontoMaximo = DateUtils.GetMilisegundos(this.ponto, toleranciaEmMilisegundos);
+    private boolean ValidarEstaAtrasado(long toleranciaMinutos, LocalDateTime expediente, LocalDateTime novoPonto) {
+        long toleranciaEmMilisegundos = DateUtils.GetMilisegundosPorMinutos(toleranciaMinutos);
+        long pontoAtual = DateUtils.GetMilisegundos(novoPonto);
 
-        boolean ok = finalExpediente > pontoMinimo && finalExpediente < pontoMaximo;
+        long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, - toleranciaEmMilisegundos);
+        long toleranciaMaximo = DateUtils.GetMilisegundos(expediente, toleranciaEmMilisegundos);
 
-        return ok;
+        boolean estaAtrasdado = pontoAtual < toleranciaMinimo || pontoAtual > toleranciaMaximo;
+
+        return estaAtrasdado;
     }
 
 
