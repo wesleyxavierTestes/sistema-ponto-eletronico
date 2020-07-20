@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
+import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
 import com.sistemapontoeletronico.domain.services.funcionario.FuncionarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +19,16 @@ public class FuncionarioController {
     private final FuncionarioService _serviceFuncionario;
 
     @Autowired
-    public FuncionarioController(
-            final FuncionarioService serviceFuncionario) {
+    public FuncionarioController(final FuncionarioService serviceFuncionario) {
         _serviceFuncionario = serviceFuncionario;
     }
 
     @GetMapping(path = "count")
-    public ResponseEntity<?> count(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<?> count(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso) {
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         final long count = this._serviceFuncionario.count();
 
@@ -37,28 +36,37 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "findAll/{pagina}")
-    public ResponseEntity<?> findAll(
-            @PathVariable(name = "pagina") int pagina,
-            @RequestParam(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso
-    ) {
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> findAll(@PathVariable(name = "pagina") int pagina,
+            @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         final Page<Funcionario> list = this._serviceFuncionario.findAll(pagina);
 
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping(path = "findAll/bloqueado/{pagina}")
+    public ResponseEntity<?> findAllbloqueado(
+        @PathVariable(name = "pagina") int pagina,
+            @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        final List<Funcionario> list = this._serviceFuncionario
+        .findAllFuncionarioEstado(EnumFuncionarioEstado.Bloqueado, pagina);
+
+        return ResponseEntity.ok(list);
+    }
+
     @GetMapping(path = "findById")
-    public ResponseEntity<?> findById(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso,
-            @RequestParam(name = "id") long id) {
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> findById(@RequestHeader(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Funcionario entity = this._serviceFuncionario.findById(id);
 
@@ -69,16 +77,14 @@ public class FuncionarioController {
     }
 
     @PostMapping(path = "save")
-    public ResponseEntity<?> save(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso,
-            @RequestBody Funcionario entity) {
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> save(@RequestHeader(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso, @RequestBody Funcionario entity) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Funcionario newEntity = this._serviceFuncionario.save(entity);
-        
+
         if (!Objects.nonNull(newEntity))
             return ResponseEntity.badRequest().build();
 
@@ -86,13 +92,11 @@ public class FuncionarioController {
     }
 
     @PutMapping(path = "update")
-    public ResponseEntity<?> update(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso,
-            @RequestBody Funcionario entity) {
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> update(@RequestHeader(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso, @RequestBody Funcionario entity) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Funcionario newEntity = this._serviceFuncionario.update(entity);
         if (!Objects.nonNull(newEntity))
@@ -101,14 +105,12 @@ public class FuncionarioController {
     }
 
     @DeleteMapping(path = "deleteById")
-    public ResponseEntity<?> deleteById(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso,
-            @RequestParam(name = "id") long id) {
+    public ResponseEntity<?> deleteById(@RequestHeader(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
 
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         boolean deleted = this._serviceFuncionario.deleteById(id);
 
@@ -120,14 +122,20 @@ public class FuncionarioController {
 
     @GetMapping(path = "desbloquear")
     public ResponseEntity<?> desbloquear(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso,
-            @RequestParam(name = "id") long id) {
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        @RequestHeader(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Funcionario entity = this._serviceFuncionario.findById(id);
+
+        if (!Objects.nonNull(entity))
+            return ResponseEntity.ok("Usuário inexistente");
+        if (entity.getId() == funcionarioId)
+            return ResponseEntity.ok("Usuário não pode executar esta ação");
+        if (!entity.EstaBloqueado())
+            return ResponseEntity.ok("Usuário não está bloqueado");
 
         this._serviceFuncionario.bloquearFuncionario(entity, false);
 
@@ -135,15 +143,20 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "bloquear")
-    public ResponseEntity<?> bloquear(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso,
-            @RequestParam(name = "id") long id) {
-        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
-                funcionarioId, acesso);
-        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<?> bloquear(@RequestHeader(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+        if (!funcionarioAutorizado)
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         Funcionario entity = this._serviceFuncionario.findById(id);
+
+        if (!Objects.nonNull(entity))
+            return ResponseEntity.ok("Usuário inexistente");
+        if (entity.getId() == funcionarioId)
+            return ResponseEntity.ok("Usuário não pode executar esta ação");
+        if (entity.EstaBloqueado())
+            return ResponseEntity.ok("Usuário não está ativo");
 
         this._serviceFuncionario.bloquearFuncionario(entity, true);
 

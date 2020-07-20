@@ -2,8 +2,6 @@ package com.sistemapontoeletronico.domain.entities.biometria;
 
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
-import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
-import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioSetor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

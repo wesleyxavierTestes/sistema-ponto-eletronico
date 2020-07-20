@@ -38,13 +38,17 @@ public class RelogioPontoController {
 
     @GetMapping(path = "findAll/{pagina}")
     public ResponseEntity<?> findAll(@PathVariable(name = "pagina") int pagina,
-            @RequestParam(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
+            @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
         if (!funcionarioAutorizado)
             return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-        final Page<RelogioPonto> list = this._serviceRelogioPonto.findAll(pagina);
-
+        final Page<RelogioPonto> list = this._serviceRelogioPonto.findAll(pagina)
+                                    .map(c -> {
+                                        c.setFuncionario(null);
+                                        return c;
+                                    });
+        
         return ResponseEntity.ok(list);
     }
 
@@ -80,7 +84,7 @@ public class RelogioPontoController {
     }
 
     @DeleteMapping(path = "deleteById")
-    public ResponseEntity<?> deleteById(@RequestParam(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<?> deleteById(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
         if (!funcionarioAutorizado)

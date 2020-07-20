@@ -29,7 +29,7 @@ public class PreDefinicaoPontoController {
 
     @GetMapping(path = "findAll")
     public ResponseEntity<?> findAll(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso
     ) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
@@ -44,7 +44,7 @@ public class PreDefinicaoPontoController {
 
     @PostMapping(path = "save")
     public ResponseEntity<?> save(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso,
             @RequestBody PreDefinicaoPonto entity) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
@@ -65,7 +65,7 @@ public class PreDefinicaoPontoController {
 
     @PutMapping(path = "update")
     public ResponseEntity<?> update(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso,
             @RequestBody PreDefinicaoPonto entity) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
@@ -80,7 +80,7 @@ public class PreDefinicaoPontoController {
 
     @DeleteMapping(path = "deleteById")
     public ResponseEntity<?> deleteById(
-            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso,
             @RequestParam(name = "id") long id) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(

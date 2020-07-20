@@ -1,10 +1,10 @@
 package com.sistemapontoeletronico.domain.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
-import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -60,6 +60,7 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
     public T update(T entity) {
         boolean exists = this._repository.existsById(entity.getId());
         if (!exists) return null;
+        entity.setDataCadastro(LocalDateTime.now());
         return this._repository.save(entity);
     }
 
