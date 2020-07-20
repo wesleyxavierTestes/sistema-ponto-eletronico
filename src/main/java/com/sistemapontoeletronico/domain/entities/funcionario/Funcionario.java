@@ -51,7 +51,7 @@ public class Funcionario extends BaseEntity {
     @Column(nullable = false)
     private EnumFuncionarioSetor funcionarioSetor;
 
-    @OneToMany(cascade = CascadeType.REMOVE)//, mappedBy="funcionario")
+    @OneToMany(cascade = CascadeType.ALL)//, mappedBy="funcionario")
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
     private List<RelogioPonto> relogiosPonto;
 

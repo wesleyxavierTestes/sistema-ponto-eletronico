@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
