@@ -7,6 +7,7 @@ import javax.persistence.*;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 
+import com.sistemapontoeletronico.domain.enuns.EnumRelogioPontoEstado;
 import com.sistemapontoeletronico.utils.DateUtils;
 import lombok.*;
 import lombok.NoArgsConstructor;
@@ -27,18 +28,40 @@ public class RelogioPonto extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime ponto;
 
-    private boolean estaAtrasado;
+    private EnumRelogioPontoEstado relogioPontoEstado;
     private boolean inconsistente;
 
-    public boolean ValidarEstaAtrasado(LocalDateTime expediente, long toleranciaMinutos) {
+    public EnumRelogioPontoEstado ValidarEstaAtrasadoInicio(LocalDateTime expediente, long toleranciaMinutos) {
         long toleranciaEmMilisegundos = DateUtils.GetMilisegundosPorMinutos(toleranciaMinutos);
         long pontoAtual = DateUtils.GetMilisegundos(this.ponto);
 
         long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, - toleranciaEmMilisegundos);
         long toleranciaMaximo = DateUtils.GetMilisegundos(expediente, toleranciaEmMilisegundos);
 
-        boolean estaAtrasdado = pontoAtual < toleranciaMinimo || pontoAtual > toleranciaMaximo;
+        if (pontoAtual < toleranciaMinimo) {
+            return EnumRelogioPontoEstado.Adiantado;
+        }
+        else if (pontoAtual > toleranciaMaximo) {
+            return EnumRelogioPontoEstado.Atrasado;
+        }
 
-        return estaAtrasdado;
+        return EnumRelogioPontoEstado.NoHorario;
+    }
+
+    public EnumRelogioPontoEstado ValidarEstaAtrasadoFinal(LocalDateTime expediente, long toleranciaMinutos) {
+        long toleranciaEmMilisegundos = DateUtils.GetMilisegundosPorMinutos(toleranciaMinutos);
+        long pontoAtual = DateUtils.GetMilisegundos(this.ponto);
+
+        long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, - toleranciaEmMilisegundos);
+        long toleranciaMaximo = DateUtils.GetMilisegundos(expediente, toleranciaEmMilisegundos);
+
+        if (pontoAtual < toleranciaMinimo) {
+            return EnumRelogioPontoEstado.Atrasado;
+        }
+        else if (pontoAtual > toleranciaMaximo) {
+            return EnumRelogioPontoEstado.Adiantado;
+        }
+
+        return EnumRelogioPontoEstado.NoHorario;
     }
 }

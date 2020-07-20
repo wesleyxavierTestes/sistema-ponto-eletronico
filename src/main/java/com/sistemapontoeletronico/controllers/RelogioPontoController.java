@@ -12,11 +12,7 @@ import com.sistemapontoeletronico.domain.services.relogioPonto.RelogioPontoServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/relogioponto/")
@@ -50,12 +46,10 @@ public class RelogioPontoController {
 
         Funcionario funcionario = this._serviceFuncionario.findById(entity.getFuncionario().getId());
         if (!Objects.nonNull(funcionario) || funcionario.EstaBloqueado())
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok("Usuário Bloqueado");
 
         PreDefinicaoPonto preDefinicao = this._servicePreDefinicaoPonto.find();
         if (!Objects.nonNull(preDefinicao)) return ResponseEntity.notFound().build();
-
-        this._serviceRelogioPonto.ConfigurarEstaAtrasado(entity, preDefinicao);
         this._serviceRelogioPonto.ConfigurarEstaAtrasado(entity, preDefinicao);
         this._serviceRelogioPonto.setInconsistente(entity, preDefinicao);
 
@@ -65,8 +59,28 @@ public class RelogioPontoController {
 
         boolean bloquear = this._serviceRelogioPonto.ValidarLimiteAtraso(entity, preDefinicao);
 
-        if (bloquear) this._serviceFuncionario.bloquearFuncionario(entity.getFuncionario(), bloquear);
+        if (bloquear){
+            this._serviceFuncionario.bloquearFuncionario(entity.getFuncionario(), bloquear);
+            return ResponseEntity.ok("Usuário está bloqueado para novo registro, Procure o RH para desbloqueio");
+        }
 
         return ResponseEntity.ok(newEntity);
+    }
+
+    @DeleteMapping(path = "deleteById")
+    public ResponseEntity<?> deleteById(
+            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso,
+            @RequestParam(name = "id") long id) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
+                funcionarioId, acesso);
+        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        boolean deleted = this._serviceRelogioPonto.deleteById(id);
+
+        if (!deleted)
+            return ResponseEntity.badRequest().build();
+
+        return ResponseEntity.ok(deleted);
     }
 }

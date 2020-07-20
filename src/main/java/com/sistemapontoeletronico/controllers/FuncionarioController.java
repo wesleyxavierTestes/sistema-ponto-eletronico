@@ -121,7 +121,7 @@ public class FuncionarioController {
     public ResponseEntity<?> desbloquear(
             @RequestParam(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso,
-            @RequestParam(name = "funcionarioId") long id) {
+            @RequestParam(name = "id") long id) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
                 funcionarioId, acesso);
         if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
@@ -137,7 +137,7 @@ public class FuncionarioController {
     public ResponseEntity<?> bloquear(
             @RequestParam(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso,
-            @RequestParam(name = "funcionarioId") long id) {
+            @RequestParam(name = "id") long id) {
         boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
                 funcionarioId, acesso);
         if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);

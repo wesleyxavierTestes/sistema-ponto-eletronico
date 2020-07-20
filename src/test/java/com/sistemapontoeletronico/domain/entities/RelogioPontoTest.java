@@ -56,7 +56,7 @@ private PreDefinicaoPonto preDefinicao;
         preDefinicao.setMinutosTolerancia(toleranciaMinutos);
         relogioPonto.setPonto(ponto);
         
-        boolean atrasado = relogioPonto.ValidarEstaAtrasado(
+        boolean atrasado = relogioPonto.ValidarEstaAtrasadoInicio(
                 preDefinicao.getFinalExpediente(),
                 preDefinicao.getMinutosTolerancia());
 

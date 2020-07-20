@@ -2,14 +2,13 @@ package com.sistemapontoeletronico.domain.services.relogioPonto;
 
 import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;
 import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
+import com.sistemapontoeletronico.domain.enuns.EnumRelogioPontoEstado;
 import com.sistemapontoeletronico.domain.services.BaseService;
 import com.sistemapontoeletronico.infra.repositorys.IRelogioPontoRepository;
 
 import com.sistemapontoeletronico.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 public class RelogioPontoService extends BaseService<RelogioPonto> {
@@ -22,12 +21,45 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
         _repository = repository;
     }
 
-    public void ConfigurarEstaAtrasado(RelogioPonto entity, PreDefinicaoPonto preDefinicao) {
-        boolean estaAtrasado = entity.ValidarEstaAtrasado(
-                preDefinicao.getFinalExpediente(),
-                preDefinicao.getMinutosTolerancia()
-        );
-        entity.setEstaAtrasado(estaAtrasado);
+    public void ConfigurarEstaAtrasado(
+            RelogioPonto entity,
+            PreDefinicaoPonto preDefinicao) {
+        int pontoNumeroDia = this.pontoNumeroDia(entity.getFuncionario().getId());
+
+        EnumRelogioPontoEstado relogioPontoEstado;
+        switch (pontoNumeroDia) {
+            case 1:
+                relogioPontoEstado = entity.ValidarEstaAtrasadoInicio(
+                    preDefinicao.getInicioExpediente(),
+                    preDefinicao.getMinutosTolerancia()
+            );
+                break;
+            case 2:
+                relogioPontoEstado = entity.ValidarEstaAtrasadoInicio(
+                        preDefinicao.getInicioDescanso(),
+                        preDefinicao.getMinutosTolerancia()
+                );
+                break;
+
+            case 3:
+                relogioPontoEstado = entity.ValidarEstaAtrasadoFinal(
+                        preDefinicao.getFinalDescanso(),
+                        preDefinicao.getMinutosTolerancia()
+                );
+                break;
+            case 4:
+                relogioPontoEstado = entity.ValidarEstaAtrasadoFinal(
+                        preDefinicao.getFinalExpediente(),
+                        preDefinicao.getMinutosTolerancia()
+                );
+                break;
+
+            default:
+                relogioPontoEstado = EnumRelogioPontoEstado.NoHorario;
+                break;
+        }
+
+        entity.setRelogioPontoEstado(relogioPontoEstado);
     }
 
     public boolean ValidarLimiteAtraso(RelogioPonto entity, PreDefinicaoPonto preDefinicaoPonto) {
@@ -39,11 +71,22 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
     }
 
     public void setInconsistente(RelogioPonto entity, PreDefinicaoPonto preDefinicaoPonto) {
-
-        long countPontoHoje = this._repository.countPontoHoje(
-                entity.getFuncionario().getId(), DateUtils.IniciDoDia(), DateUtils.FinalDoDia());
-
-        boolean inconsistente =  countPontoHoje > preDefinicaoPonto.getLimiteBatidas();
+        boolean inconsistente = ValidarLimiteBatidas(entity.getFuncionario().getId(),
+                preDefinicaoPonto.getLimiteBatidas());
         entity.setInconsistente(inconsistente);
+    }
+
+    public boolean ValidarLimiteBatidas(long funcionarioId, long limiteBatidas) {
+        long countPontoHoje = countPontoHoje(funcionarioId);
+        return countPontoHoje > limiteBatidas;
+    }
+
+    public long countPontoHoje(long funcionarioId) {
+        return this._repository.countPontoHoje(funcionarioId
+                    , DateUtils.IniciDoDia(), DateUtils.FinalDoDia());
+    }
+
+    public int pontoNumeroDia(long funcionarioId) {
+        return (int)countPontoHoje(funcionarioId) + 1;
     }
 }
