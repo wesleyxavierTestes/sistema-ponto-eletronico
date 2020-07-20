@@ -1,0 +1,499 @@
+{
+	"info": {
+		"_postman_id": "135a147e-33d9-4f70-a1ee-b5ba0ad3e55d",
+		"name": "sg-sistemas-trainee",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "trainne_primeiro",
+			"item": [
+				{
+					"name": "Produto",
+					"item": [
+						{
+							"name": "ProdutoSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Sapato\"\n    , \"valor\": 101.02\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/produto/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProdutoFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/produto/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProdutoFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/produto/findbyid/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"findbyid",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProdutoDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/produto/deletebyid/?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Cliente",
+					"item": [
+						{
+							"name": "ClienteSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Monica\",\n    \"cpfCnpj\": \"04271654906\",\n    \"cep\": \"87103292\",\n    \"telefones\": [\n        {\n          \"numero\": \"4498030320\"  \n        }\n    ],\n    \"loja\" : {\n        \"id\":1,\n        \"nome\": \"Casa Calçados\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ClienteFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ClienteFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/findbyid/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"findbyid",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ClienteDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/deletebyid/?id=7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Loja",
+					"item": [
+						{
+							"name": "LojaSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Casa Calçados\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/loja/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LojaFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/loja/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LojaFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/loja/findbyid/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"findbyid",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LojaDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/loja/deletebyid/?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pedido",
+					"item": [
+						{
+							"name": "PedidoSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Casa Calçados\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PedidoFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PedidoFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/findbyid/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"findbyid",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PedidoDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/deletebyid/?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9836453b-9860-4d34-84a6-16c70a679298",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "0032434e-34ac-4bb1-af33-f1a15c5bad78",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Utils",
+					"item": [
+						{
+							"name": "ConsultarCep",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cep/consultar/87103292",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cep",
+										"consultar",
+										"87103292"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
