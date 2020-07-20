@@ -17,11 +17,11 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
     }
 
     @Override
-    public List<T> findAll(int pagina) {
+    public Page<T> findAll(int pagina) {
         Page<T> lista = this._repository.findAll(PageRequest.of((pagina - 1), 10));
         if (!Objects.nonNull(lista)) return null;
         List<T> listaEntity = lista.toList();
-        return listaEntity;
+        return lista;
     }
 
     @Override

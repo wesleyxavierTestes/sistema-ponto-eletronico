@@ -7,6 +7,7 @@ import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.services.funcionario.FuncionarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class FuncionarioController {
                 funcionarioId, acesso);
         if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-        final List<Funcionario> list = this._serviceFuncionario.findAll(pagina);
+        final Page<Funcionario> list = this._serviceFuncionario.findAll(pagina);
 
         return ResponseEntity.ok(list);
     }

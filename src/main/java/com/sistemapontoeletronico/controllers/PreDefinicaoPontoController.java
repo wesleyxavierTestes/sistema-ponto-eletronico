@@ -8,6 +8,7 @@ import com.sistemapontoeletronico.domain.services.funcionario.FuncionarioService
 import com.sistemapontoeletronico.domain.services.preDefinicaoPonto.PreDefinicaoPontoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class PreDefinicaoPontoController {
         if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
         // Só pode haver 1 única definição
-        final List<PreDefinicaoPonto> list = this._servicePreDefinicaoPonto.findAll(1);
+        final Page<PreDefinicaoPonto> list = this._servicePreDefinicaoPonto.findAll(1);
 
         return ResponseEntity.ok(list);
     }
@@ -50,9 +51,8 @@ public class PreDefinicaoPontoController {
                 funcionarioId, acesso);
         if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-        final List<PreDefinicaoPonto> list = this._servicePreDefinicaoPonto.findAll(1);
-
-        if (!Objects.nonNull(list) && list.size() > 0) return new ResponseEntity<>
+        final Page<PreDefinicaoPonto> list = this._servicePreDefinicaoPonto.findAll(1);
+        if (Objects.nonNull(list) && list.getTotalElements() > 0) return new ResponseEntity<>
                 (null, HttpStatus.LOCKED);
 
         PreDefinicaoPonto newEntity = this._servicePreDefinicaoPonto.save(entity);

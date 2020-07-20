@@ -13,25 +13,21 @@ public interface IRelogioPontoRepository extends JpaRepository<RelogioPonto, Lon
     @Query(
             nativeQuery = true,
             value = "select count(*) from public.relogio_ponto as u " +
-                    "where u.funcionario_id = :funcionarioId " +
-                    "where u.esta_atrasado = true " +
-                    "and u.ponto > :InicioDaSemana " +
-                    "and u.ponto < :FinalDaSemana ")
+            "where u.funcionario_id = :funcionarioId " +
+            "and u.relogio_ponto_estado = 'Atrasado' " +
+            "and u.ponto > :InicioDaSemana ")
     long countPontoSemanaAtrasado(
             @Param("funcionarioId") long funcionarioId,
-            @Param("InicioDaSemana") LocalDateTime InicioDaSemana,
-            @Param("FinalDaSemana") LocalDateTime FinalDaSemana
+            @Param("InicioDaSemana") LocalDateTime InicioDaSemana
     );
 
     @Query(
             nativeQuery = true,
             value = "select count(*) from public.relogio_ponto as u " +
                     "where u.funcionario_id = :funcionarioId " +
-                    "and u.ponto > :IniciDoDia " +
-                    "and u.ponto < :FinalDoDia ")
+                    "and u.ponto > :IniciDoDia ")
     long countPontoHoje(
             @Param("funcionarioId") long funcionarioId,
-            @Param("IniciDoDia") LocalDateTime IniciDoDia,
-            @Param("FinalDoDia") LocalDateTime FinalDoDia
+            @Param("IniciDoDia") LocalDateTime IniciDoDia
     );
 }

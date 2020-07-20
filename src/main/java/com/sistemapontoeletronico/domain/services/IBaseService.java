@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 
+import org.springframework.data.domain.Page;
+
 public interface IBaseService<T extends BaseEntity>  {
 
-	List<T> findAll(int pagina);
+	Page<T> findAll(int pagina);
     long count();
     boolean existsById(long id);
     T findById(long id);

@@ -12,7 +12,6 @@ import com.sistemapontoeletronico.utils.DateUtils;
 import lombok.*;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.NonNull;
 
 @Getter
 @Setter
@@ -28,7 +27,9 @@ public class RelogioPonto extends BaseEntity {
     @Column(nullable = false)
     private LocalDateTime ponto;
 
+    @Enumerated(EnumType.STRING)
     private EnumRelogioPontoEstado relogioPontoEstado;
+    
     private boolean inconsistente;
 
     public EnumRelogioPontoEstado ValidarEstaAtrasadoInicio(LocalDateTime expediente, long toleranciaMinutos) {
