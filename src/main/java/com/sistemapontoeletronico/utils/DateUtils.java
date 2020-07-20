@@ -1,9 +1,6 @@
 package com.sistemapontoeletronico.utils;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 
 public final class DateUtils {
     private DateUtils() {}
@@ -33,5 +30,33 @@ public final class DateUtils {
         Instant instant = Instant.ofEpochMilli(millis);
         LocalDateTime date = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
         return  date;
+    }
+
+    public static LocalDateTime IniciDoDia() {
+        return LocalDateTime.of(
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonth(),
+                LocalDateTime.now().getDayOfMonth(),
+                0, 0,0
+        );
+    }
+
+    public static LocalDateTime FinalDoDia() {
+        return LocalDateTime.of(
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonth(),
+                LocalDateTime.now().getDayOfMonth(),
+                23, 59,59
+        );
+    }
+
+    public static LocalDateTime InicioDaSemana() {
+
+        return LocalDateTime.of(
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonth(),
+                LocalDateTime.now().getDayOfMonth() - 7,
+                0, 0,0)
+                        .with(DayOfWeek.SUNDAY);
     }
 }

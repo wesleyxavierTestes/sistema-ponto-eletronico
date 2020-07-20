@@ -10,9 +10,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BiometriaService extends BaseService<Biometria> {
-
+    private final IBiometriaRepository _repository;
     @Autowired
     public BiometriaService(IBiometriaRepository repository) {
         super(repository);
+        _repository = repository;
+    }
+
+    public Long findFuncionarioIdByBiometriaCodigo(String codigo) {
+        return this._repository.findFuncionarioIdByBiometriaCodigo(codigo);
     }
 }

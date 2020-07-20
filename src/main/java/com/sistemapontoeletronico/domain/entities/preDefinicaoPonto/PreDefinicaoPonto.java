@@ -18,12 +18,14 @@ import lombok.Setter;
 @Entity
 public class PreDefinicaoPonto extends BaseEntity {
 
+    private final long limiteBatidas = 2;
+
     private int limiteQuantidadeAtrasoSemana;
 
     private int minutosTolerancia;
-    //private LocalDateTime InicioExpediente;
-    //private LocalDateTime InicioDescanso;
-   // private LocalDateTime FinalDescanso;
+    private LocalDateTime InicioExpediente;
+    private LocalDateTime InicioDescanso;
+    private LocalDateTime FinalDescanso;
     private LocalDateTime FinalExpediente;
 
 

@@ -1,7 +1,6 @@
 package com.sistemapontoeletronico.domain.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 
@@ -63,7 +62,4 @@ private PreDefinicaoPonto preDefinicao;
 
         assertEquals(estaAtrasado, atrasado, "");
     }
-
-
-    
 }

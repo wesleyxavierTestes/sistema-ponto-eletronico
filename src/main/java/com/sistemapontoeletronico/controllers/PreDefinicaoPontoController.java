@@ -4,42 +4,58 @@ import java.util.List;
 import java.util.Objects;
 
 import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;
+import com.sistemapontoeletronico.domain.services.funcionario.FuncionarioService;
 import com.sistemapontoeletronico.domain.services.preDefinicaoPonto.PreDefinicaoPontoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/rh/predefinicaoponto/")
+@RequestMapping("/api/predefinicaoponto/")
 public class PreDefinicaoPontoController {
-    private final PreDefinicaoPontoService _service;
+    private final FuncionarioService _serviceFuncionario;
+    private final PreDefinicaoPontoService _servicePreDefinicaoPonto;
 
     @Autowired
-    public PreDefinicaoPontoController(final PreDefinicaoPontoService service) {
-        _service = service;
+    public PreDefinicaoPontoController(
+            final FuncionarioService serviceFuncionario,
+            final PreDefinicaoPontoService servicePreDefinicaoPonto) {
+        _servicePreDefinicaoPonto = servicePreDefinicaoPonto;
+        _serviceFuncionario = serviceFuncionario;
     }
 
     @GetMapping(path = "findAll")
-    public ResponseEntity<?> findAll() {
-// Verificar se o Usuario que faz esse pedido é rh
+    public ResponseEntity<?> findAll(
+            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso
+    ) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
+                funcionarioId, acesso);
+        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
         // Só pode haver 1 única definição
-        final List<PreDefinicaoPonto> list = this._service.findAll();
+        final List<PreDefinicaoPonto> list = this._servicePreDefinicaoPonto.findAll(1);
 
         return ResponseEntity.ok(list);
     }
 
     @PostMapping(path = "save")
-    public ResponseEntity<?> save(@RequestBody PreDefinicaoPonto entity) {
-        // Verificar se o Usuario que faz esse pedido é rh
-// Só pode haver 1 única definição
-        PreDefinicaoPonto newEntity = this._service.save(entity);
+    public ResponseEntity<?> save(
+            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso,
+            @RequestBody PreDefinicaoPonto entity) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
+                funcionarioId, acesso);
+        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        final List<PreDefinicaoPonto> list = this._servicePreDefinicaoPonto.findAll(1);
+
+        if (!Objects.nonNull(list) && list.size() > 0) return new ResponseEntity<>
+                (null, HttpStatus.LOCKED);
+
+        PreDefinicaoPonto newEntity = this._servicePreDefinicaoPonto.save(entity);
         
         if (!Objects.nonNull(newEntity))
             return ResponseEntity.badRequest().build();
@@ -48,19 +64,30 @@ public class PreDefinicaoPontoController {
     }
 
     @PutMapping(path = "update")
-    public ResponseEntity<?> update(@RequestBody PreDefinicaoPonto entity) {
-        // Verificar se o Usuario que faz esse pedido é rh
-// Só pode haver 1 única definição
-        PreDefinicaoPonto newEntity = this._service.update(entity);
+    public ResponseEntity<?> update(
+            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso,
+            @RequestBody PreDefinicaoPonto entity) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
+                funcionarioId, acesso);
+        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        PreDefinicaoPonto newEntity = this._servicePreDefinicaoPonto.update(entity);
         if (!Objects.nonNull(newEntity))
             return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(newEntity);
     }
 
-    @GetMapping(path = "deleteById")
-    public ResponseEntity<?> deleteById(@RequestParam(name = "id") long id) {
-// Verificar se o Usuario que faz esse pedido é rh
-        boolean deleted = this._service.deleteById(id);
+    @DeleteMapping(path = "deleteById")
+    public ResponseEntity<?> deleteById(
+            @RequestParam(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso,
+            @RequestParam(name = "id") long id) {
+        boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(
+                funcionarioId, acesso);
+        if (!funcionarioAutorizado) return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+        boolean deleted = this._servicePreDefinicaoPonto.deleteById(id);
 
         if (!deleted)
             return ResponseEntity.badRequest().build();

@@ -12,10 +12,12 @@ import java.util.Objects;
 
 @Service
 public class PreDefinicaoPontoService extends BaseService<PreDefinicaoPonto> {
-    
+
+    private IPreDefinicaoPontoRepository _repository;
     @Autowired
     public PreDefinicaoPontoService(IPreDefinicaoPontoRepository repository) {
         super(repository);
+        _repository = repository;
     }
 
     public PreDefinicaoPonto find() {

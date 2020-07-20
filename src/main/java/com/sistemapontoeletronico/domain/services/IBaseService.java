@@ -6,7 +6,7 @@ import com.sistemapontoeletronico.domain.entities.BaseEntity;
 
 public interface IBaseService<T extends BaseEntity>  {
 
-	List<T> findAll();
+	List<T> findAll(int pagina);
     long count();
     boolean existsById(long id);
     T findById(long id);

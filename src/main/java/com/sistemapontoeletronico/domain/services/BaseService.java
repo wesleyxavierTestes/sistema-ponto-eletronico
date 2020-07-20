@@ -1,20 +1,26 @@
 package com.sistemapontoeletronico.domain.services;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
+import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public abstract class BaseService<T extends BaseEntity> implements IBaseService<T> {
-    protected  JpaRepository<T, Long> _repository;
+    private JpaRepository<T, Long> _repository;
 
     public BaseService(JpaRepository<T, Long> repository) {
         _repository = repository;
     }
 
     @Override
-    public List<T> findAll() {
-        List<T> listaEntity = this._repository.findAll();
+    public List<T> findAll(int pagina) {
+        Page<T> lista = this._repository.findAll(PageRequest.of((pagina - 1), 10));
+        if (!Objects.nonNull(lista)) return null;
+        List<T> listaEntity = lista.toList();
         return listaEntity;
     }
 
@@ -32,9 +38,14 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
 
     @Override
     public T findById(long id) {
-        Optional<T> entity = this._repository.findById(id);
-        if (!entity.isPresent()) return null;
-        return entity.get();
+        try {
+            Optional<T> entity = this._repository.findById(id);
+            if (!entity.isPresent()) return null;
+            return entity.get();
+        } catch (Exception e) {
+            System.out.println(e);
+            return  null;
+        }
     }
 
     @Override
