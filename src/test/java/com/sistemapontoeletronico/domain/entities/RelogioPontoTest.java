@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;
 import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
 
+import com.sistemapontoeletronico.domain.enuns.EnumRelogioPontoEstado;
 import com.sistemapontoeletronico.utils.DateUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -52,13 +53,15 @@ private PreDefinicaoPonto preDefinicao;
         long pontoMili = DateUtils.GetMilisegundosPorSegundos(expediente, totalSegundosAtraso);
         LocalDateTime ponto = DateUtils.GetLocalDateTime(pontoMili);
 
-        preDefinicao.setFinalExpediente(expediente);
+        preDefinicao.setInicioExpediente(expediente);
         preDefinicao.setMinutosTolerancia(toleranciaMinutos);
         relogioPonto.setPonto(ponto);
-        
-        boolean atrasado = relogioPonto.ValidarEstaAtrasadoInicio(
-                preDefinicao.getFinalExpediente(),
+
+        EnumRelogioPontoEstado validarEstaAtrasadoInicio = relogioPonto.ValidarEstaAtrasadoInicio(
+                preDefinicao.getInicioExpediente(),
                 preDefinicao.getMinutosTolerancia());
+
+        boolean atrasado = validarEstaAtrasadoInicio == EnumRelogioPontoEstado.Atrasado;
 
         assertEquals(estaAtrasado, atrasado, "");
     }
