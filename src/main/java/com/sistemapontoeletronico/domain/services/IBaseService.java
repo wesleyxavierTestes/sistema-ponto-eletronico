@@ -1,7 +1,5 @@
 package com.sistemapontoeletronico.domain.services;
 
-import java.util.List;
-
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 
 import org.springframework.data.domain.Page;

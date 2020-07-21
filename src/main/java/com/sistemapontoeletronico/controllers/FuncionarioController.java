@@ -1,6 +1,5 @@
 package com.sistemapontoeletronico.controllers;
 
-import java.util.List;
 import java.util.Objects;
 
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
@@ -9,7 +8,6 @@ import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioSetor;
 import com.sistemapontoeletronico.domain.exceptions.AutorizationInitialException;
 import com.sistemapontoeletronico.domain.services.funcionario.FuncionarioService;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;

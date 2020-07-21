@@ -25,6 +25,8 @@ public class PreDefinicaoPonto extends BaseEntity {
     private int limiteQuantidadeAtrasoSemana;
 
     private int minutosTolerancia;
+    
+    private int quantidadePontosDia;
 
     @NonNull
     @Column(nullable = false)

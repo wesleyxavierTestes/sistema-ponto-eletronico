@@ -1,10 +1,4 @@
 package com.sistemapontoeletronico.domain.services.funcionario;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.criteria.Order;
-
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
 import com.sistemapontoeletronico.domain.enuns.EnumTipoOperacao;
@@ -15,8 +9,6 @@ import com.sistemapontoeletronico.infra.repositorys.IFuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -77,7 +69,7 @@ public class FuncionarioService extends BaseService<Funcionario> {
 	}
 
 	public Funcionario findByCodigoAcesso(String codigoAcesso, EnumTipoOperacao tipoOperacao) {
-        if (codigoAcesso == null || codigoAcesso.isEmpty() || codigoAcesso.isBlank()) return null;
+        if (codigoAcesso == null || codigoAcesso.isEmpty()) return null;
 
         Funcionario funcionario = tipoOperacao == EnumTipoOperacao.biometria
         ? this._repository.findByCodigoAcessoBiometria(codigoAcesso)
@@ -89,8 +81,7 @@ public class FuncionarioService extends BaseService<Funcionario> {
 	public Page<Funcionario> findAllFuncionarioBiometriaFaltante(int pagina) {
         Page<Funcionario> funcionarios =  
         this._repository.findAllFuncionarioBiometriaFaltante(
-            PageRequest.of((pagina - 1), 10)
-        );
+            PageRequest.of((pagina - 1), 10));
         return funcionarios;
 	}
 }

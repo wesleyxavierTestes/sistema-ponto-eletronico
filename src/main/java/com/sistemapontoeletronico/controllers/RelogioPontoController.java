@@ -27,8 +27,7 @@ public class RelogioPontoController {
     private final PreDefinicaoPontoService _servicePreDefinicaoPonto;
 
     @Autowired
-    public RelogioPontoController(final RelogioPontoService service,
-        final FuncionarioService serviceFuncionario,
+    public RelogioPontoController(final RelogioPontoService service, final FuncionarioService serviceFuncionario,
             final PreDefinicaoPontoService servicePreDefinicaoPonto) {
         _serviceRelogioPonto = service;
         _serviceFuncionario = serviceFuncionario;
@@ -36,9 +35,17 @@ public class RelogioPontoController {
     }
 
     @GetMapping(path = "count")
-    public ResponseEntity<?> count() {
-        long count = this._serviceRelogioPonto.count();
-        return ResponseEntity.ok(count);
+    public ResponseEntity<?> count(@RequestHeader(name = "funcionarioId") long funcionarioId,
+            @RequestParam(name = "acesso") String acesso) {
+        try {
+            boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+            if (!funcionarioAutorizado)
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            long count = this._serviceRelogioPonto.count();
+            return ResponseEntity.ok(count);
+        } catch (AutorizationInitialException e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
     }
 
     @GetMapping(path = "findAll/{pagina}")
@@ -78,8 +85,7 @@ public class RelogioPontoController {
             RelogioPonto entity = new RelogioPonto(acesso.ponto, funcionario.getNome());
 
             this._serviceRelogioPonto.configureSave(entity, funcionario);
-            this._serviceRelogioPonto.ConfigurarEstaAtrasado(entity, preDefinicao);
-            this._serviceRelogioPonto.setInconsistente(entity, preDefinicao);
+            this._serviceRelogioPonto.ConfigurarEstaAtrasadoInconsistencia(entity, preDefinicao);
 
             if (!Objects.nonNull(this._serviceRelogioPonto.save(entity)))
                 return ResponseEntity.badRequest().build();
@@ -90,26 +96,6 @@ public class RelogioPontoController {
                 this._serviceFuncionario.bloquearFuncionario(funcionario, bloquear);
                 return ResponseEntity.ok("Usuário está bloqueado para novo registro, Procure o RH para desbloqueio");
             }
-
-            return ResponseEntity.ok(entity);
-
-        } catch (Exception e) {
-            return ResponseEntity.ok(e.getMessage());
-        }
-    }
-
-    @PostMapping(path = "update")
-    public ResponseEntity<?> update(@RequestHeader(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso, @RequestBody @Validated RelogioPonto entity) {
-        try {
-            boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
-            if (!funcionarioAutorizado)
-                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-
-            Funcionario funcionario = this._serviceFuncionario.findById(funcionarioId);
-
-            if (!Objects.nonNull(this._serviceRelogioPonto.update(entity)))
-                return ResponseEntity.badRequest().build();
 
             return ResponseEntity.ok(entity);
 

@@ -2,6 +2,8 @@ package com.sistemapontoeletronico.utils;
 
 import java.time.*;
 
+import lombok.NonNull;
+
 public final class DateUtils {
     private DateUtils() {}
 
@@ -59,4 +61,15 @@ public final class DateUtils {
                 0, 0,0)
                         .with(DayOfWeek.SUNDAY);
     }
+
+	public static LocalDateTime ConfigurarExpedienteDia(@NonNull LocalDateTime inicioExpediente) {
+		return LocalDateTime.of(
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonth(),
+                LocalDateTime.now().getDayOfMonth(),
+                
+                inicioExpediente.getHour(), 
+                inicioExpediente.getMinute(),
+                inicioExpediente.getSecond());
+	}
 }

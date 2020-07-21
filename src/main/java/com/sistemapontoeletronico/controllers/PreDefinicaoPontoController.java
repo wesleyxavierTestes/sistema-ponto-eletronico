@@ -1,6 +1,5 @@
 package com.sistemapontoeletronico.controllers;
 
-import java.util.List;
 import java.util.Objects;
 
 import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;

@@ -57,8 +57,10 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
 
     @Override
     public T update(T entity) {
-        boolean exists = this._repository.existsById(entity.getId());
-        if (!exists) return null;
+        T exists = this.findById(entity.getId());
+        if (!Objects.nonNull(exists)) return null;
+        if (!Objects.nonNull(entity.getDataCadastro()))
+            entity.setDataCadastro(exists.getDataCadastro());
         return this._repository.save(entity);
     }
 

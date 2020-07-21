@@ -43,20 +43,24 @@ public class RelogioPonto extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     protected EnumRelogioPontoEstado relogioPontoEstado;
-    
+
     protected boolean inconsistente;
+
+    protected int numeroPontoDia;
 
     public EnumRelogioPontoEstado ValidarEstaAtrasadoInicio(LocalDateTime expediente, long toleranciaMinutos) {
         long toleranciaEmMilisegundos = DateUtils.GetMilisegundosPorMinutos(toleranciaMinutos);
         long pontoAtual = DateUtils.GetMilisegundos(this.ponto);
 
-        long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, - toleranciaEmMilisegundos);
+        long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, -toleranciaEmMilisegundos);
         long toleranciaMaximo = DateUtils.GetMilisegundos(expediente, toleranciaEmMilisegundos);
+        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDoDia());
 
-        if (pontoAtual < toleranciaMinimo) {
+        if (pontoAtual < IniciDoDia) {
+            return EnumRelogioPontoEstado.Atrasado;
+        } else if (pontoAtual < toleranciaMinimo) {
             return EnumRelogioPontoEstado.Adiantado;
-        }
-        else if (pontoAtual > toleranciaMaximo) {
+        } else if (pontoAtual > toleranciaMaximo) {
             return EnumRelogioPontoEstado.Atrasado;
         }
 
@@ -67,16 +71,24 @@ public class RelogioPonto extends BaseEntity {
         long toleranciaEmMilisegundos = DateUtils.GetMilisegundosPorMinutos(toleranciaMinutos);
         long pontoAtual = DateUtils.GetMilisegundos(this.ponto);
 
-        long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, - toleranciaEmMilisegundos);
+        long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, -toleranciaEmMilisegundos);
         long toleranciaMaximo = DateUtils.GetMilisegundos(expediente, toleranciaEmMilisegundos);
+        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDoDia());
 
-        if (pontoAtual < toleranciaMinimo) {
+        if (pontoAtual < IniciDoDia) {
             return EnumRelogioPontoEstado.Atrasado;
-        }
-        else if (pontoAtual > toleranciaMaximo) {
+        } else  if (pontoAtual < toleranciaMinimo) {
             return EnumRelogioPontoEstado.Adiantado;
+        } else if (pontoAtual > toleranciaMaximo) {
+            return EnumRelogioPontoEstado.Extra;
         }
 
         return EnumRelogioPontoEstado.NoHorario;
     }
+
+	public boolean ValidarInconsistente(int quantidadePontosDia) {
+        long pontoAtual = DateUtils.GetMilisegundos(this.ponto);
+        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDoDia());
+        return pontoAtual > IniciDoDia && this.numeroPontoDia > quantidadePontosDia;
+	}
 }
