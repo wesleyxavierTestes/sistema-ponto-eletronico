@@ -9,6 +9,7 @@ import com.sistemapontoeletronico.infra.repositorys.IFuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -63,7 +64,7 @@ public class FuncionarioService extends BaseService<Funcionario> {
         final EnumFuncionarioEstado funcionario_estado, int pagina) {
 
         Page<Funcionario> lista = this._repository.findAllFuncionarioEstado(
-            funcionario_estado.toString(), PageRequest.of((pagina - 1), 10)
+            funcionario_estado.toString(), PageRequest.of((pagina - 1), 10, Sort.by("id"))
             );        
         return lista;
 	}
@@ -81,7 +82,7 @@ public class FuncionarioService extends BaseService<Funcionario> {
 	public Page<Funcionario> findAllFuncionarioBiometriaFaltante(int pagina) {
         Page<Funcionario> funcionarios =  
         this._repository.findAllFuncionarioBiometriaFaltante(
-            PageRequest.of((pagina - 1), 10));
+            PageRequest.of((pagina - 1), 10, Sort.by("id")));
         return funcionarios;
 	}
 }

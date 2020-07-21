@@ -1,7 +1,5 @@
 package com.sistemapontoeletronico.infra.repositorys;
 
-import java.util.List;
-
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 
 import org.springframework.data.domain.Page;
@@ -24,9 +22,11 @@ public interface IFuncionarioRepository extends JpaRepository<Funcionario, Long>
         long countRh();
 
         @Query(nativeQuery = true, value = "SELECT * FROM public.funcionario as f "
-                        + "where f.funcionario_estado like :estado",
+                        + "where f.funcionario_estado like :estado "
+                        + "ORDER BY id",
                         countQuery = "SELECT count(f.*) FROM public.funcionario as f "
-                                        + "where f.funcionario_estado like :estado")
+                                        + "where f.funcionario_estado like :estado "
+                                        + "ORDER BY id")
         Page<Funcionario> findAllFuncionarioEstado(@Param("estado") String estado, Pageable pageable);
 
         @Query(nativeQuery = true, value = "SELECT * FROM public.funcionario as f "
@@ -50,11 +50,13 @@ public interface IFuncionarioRepository extends JpaRepository<Funcionario, Long>
                         + "where fu.id NOT IN (SELECT f.id "
                                                 + "FROM public.funcionario as f "
                                                   +"join public.biometria b "
-                                                  + "on b.funcionario_id = f.id)",
+                                                  + "on b.funcionario_id = f.id) "
+                                                  + "ORDER BY id",
         countQuery = "select * from public.funcionario fu "
                         + "where fu.id NOT IN (SELECT f.id "
                                 + "FROM public.funcionario as f "
                                   +"join public.biometria b "
-                                  + "on b.funcionario_id = f.id)")
+                                  + "on b.funcionario_id = f.id) "
+                                  + "ORDER BY id")
 	Page<Funcionario> findAllFuncionarioBiometriaFaltante(PageRequest of);
 }
