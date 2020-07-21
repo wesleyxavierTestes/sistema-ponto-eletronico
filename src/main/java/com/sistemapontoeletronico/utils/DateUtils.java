@@ -2,6 +2,8 @@ package com.sistemapontoeletronico.utils;
 
 import java.time.*;
 
+import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
+
 import lombok.NonNull;
 
 public final class DateUtils {
@@ -34,7 +36,7 @@ public final class DateUtils {
         return  date;
     }
 
-    public static LocalDateTime IniciDoDia() {
+    public static LocalDateTime IniciDesteDia() {
         return LocalDateTime.of(
                 LocalDateTime.now().getYear(),
                 LocalDateTime.now().getMonth(),
@@ -43,17 +45,42 @@ public final class DateUtils {
         );
     }
 
-    public static LocalDateTime FinalDoDia() {
+    public static LocalDateTime IniciProximoDia() {
         return LocalDateTime.of(
                 LocalDateTime.now().getYear(),
                 LocalDateTime.now().getMonth(),
-                LocalDateTime.now().getDayOfMonth(),
-                23, 59,59
+                LocalDateTime.now().getDayOfMonth() + 1,
+                0, 0, 0
         );
     }
 
-    public static LocalDateTime InicioDaSemana() {
+    public static LocalDateTime IniciDesteMes() {
+        return LocalDateTime.of(
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonth(),
+                0, 0, 0, 0
+        );
+    }
 
+    public static LocalDateTime IniciProximoMes() {
+        return LocalDateTime.of(
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonth().plus(1),
+                0, 0, 0, 0
+        );
+    }
+
+    public static LocalTime ContarTotalHoras(RelogioPonto entrada, RelogioPonto saida) {        
+        long miliA = GetMilisegundos(ConfigurarExpedienteDia(entrada.getPonto()));
+        long miliB = GetMilisegundos(ConfigurarExpedienteDia(saida.getPonto()));
+
+        long totalHoras = miliB - miliA;
+        LocalDateTime totalDateTime = GetLocalDateTime(totalHoras);
+
+        return LocalTime.of(totalDateTime.getHour(), totalDateTime.getMinute(), totalDateTime.getSecond());
+    }
+
+    public static LocalDateTime InicioDestaSemana() {
         return LocalDateTime.of(
                 LocalDateTime.now().getYear(),
                 LocalDateTime.now().getMonth(),
@@ -62,7 +89,17 @@ public final class DateUtils {
                         .with(DayOfWeek.SUNDAY);
     }
 
-	public static LocalDateTime ConfigurarExpedienteDia(@NonNull LocalDateTime inicioExpediente) {
+    public static LocalDateTime InicioProximaSemana() {
+        return LocalDateTime.of(
+                LocalDateTime.now().getYear(),
+                LocalDateTime.now().getMonth(),
+                LocalDateTime.now().getDayOfMonth(),
+                0, 0, 0)
+                        .with(DayOfWeek.SUNDAY);
+    }
+
+	public static LocalDateTime ConfigurarExpedienteDia(
+        @NonNull LocalDateTime inicioExpediente) {
 		return LocalDateTime.of(
                 LocalDateTime.now().getYear(),
                 LocalDateTime.now().getMonth(),
@@ -71,5 +108,18 @@ public final class DateUtils {
                 inicioExpediente.getHour(), 
                 inicioExpediente.getMinute(),
                 inicioExpediente.getSecond());
+	}
+
+	public static LocalDateTime ZerarHoras(LocalDateTime inicioIntervalo) {
+		return LocalDateTime.of(
+            inicioIntervalo.getYear(),
+            inicioIntervalo.getMonth(),
+            inicioIntervalo.getDayOfMonth(),
+                0, 0,0
+        );
+	}
+
+	public static LocalDateTime AddDays(LocalDateTime inicioIntervalo, int i) {
+		return null;
 	}
 }

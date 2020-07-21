@@ -1,10 +1,10 @@
-package com.sistemapontoeletronico.domain.entities;
+package com.sistemapontoeletronico.domain.dto;
 
 import java.time.LocalDateTime;
 
 import org.springframework.lang.NonNull;
 
-public class Acesso {
+public class AcessoDto {
 
     @NonNull
     public String codigoAcesso;

@@ -1,7 +1,10 @@
 package com.sistemapontoeletronico.controllers;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
+import com.sistemapontoeletronico.domain.dto.HoraDiaDto;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioSetor;

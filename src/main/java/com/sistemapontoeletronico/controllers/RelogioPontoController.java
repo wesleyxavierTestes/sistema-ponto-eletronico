@@ -1,8 +1,11 @@
 package com.sistemapontoeletronico.controllers;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
-import com.sistemapontoeletronico.domain.entities.Acesso;
+import com.sistemapontoeletronico.domain.dto.AcessoDto;
+import com.sistemapontoeletronico.domain.dto.HoraDiaDto;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;
 import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
@@ -48,6 +51,29 @@ public class RelogioPontoController {
         }
     }
 
+    @GetMapping(path = "findAll/horas")
+    public ResponseEntity<?> findAllHoras(
+            @RequestHeader(name = "funcionarioId") long funcionarioId, 
+            @RequestParam(name = "acesso") String acesso,
+            @RequestParam(name = "intervaloinicio") String intervaloinicio,
+            @RequestParam(name = "intervalofinal") String intervalofinal
+            ) {
+        try {
+            boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+            if (!funcionarioAutorizado)
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+
+            final List<HoraDiaDto> lista = this._serviceRelogioPonto
+            .relogioPontoIntervalo(
+                LocalDateTime.parse(intervaloinicio), 
+               LocalDateTime.parse(intervalofinal));
+
+            return ResponseEntity.ok(lista);
+        } catch (AutorizationInitialException e) {
+            return ResponseEntity.ok(e.getMessage());
+        }
+    }
+
     @GetMapping(path = "findAll/{pagina}")
     public ResponseEntity<?> findAll(@PathVariable(name = "pagina") int pagina,
             @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
@@ -69,7 +95,7 @@ public class RelogioPontoController {
 
     @PostMapping(path = "save/{tipoOperacao}")
     public ResponseEntity<?> save(@PathVariable(name = "tipoOperacao") EnumTipoOperacao tipoOperacao,
-            @RequestBody @Validated Acesso acesso) {
+            @RequestBody @Validated AcessoDto acesso) {
         try {
             PreDefinicaoPonto preDefinicao = this._servicePreDefinicaoPonto.find();
             if (!Objects.nonNull(preDefinicao))

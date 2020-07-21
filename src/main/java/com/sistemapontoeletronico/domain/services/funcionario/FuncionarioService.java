@@ -1,4 +1,6 @@
 package com.sistemapontoeletronico.domain.services.funcionario;
+import java.time.LocalDateTime;
+
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
 import com.sistemapontoeletronico.domain.enuns.EnumTipoOperacao;
@@ -84,5 +86,5 @@ public class FuncionarioService extends BaseService<Funcionario> {
         this._repository.findAllFuncionarioBiometriaFaltante(
             PageRequest.of((pagina - 1), 10, Sort.by("id")));
         return funcionarios;
-	}
+    }
 }

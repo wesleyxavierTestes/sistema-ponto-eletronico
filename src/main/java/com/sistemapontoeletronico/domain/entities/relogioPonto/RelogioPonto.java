@@ -54,7 +54,7 @@ public class RelogioPonto extends BaseEntity {
 
         long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, -toleranciaEmMilisegundos);
         long toleranciaMaximo = DateUtils.GetMilisegundos(expediente, toleranciaEmMilisegundos);
-        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDoDia());
+        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDesteDia());
 
         if (pontoAtual < IniciDoDia) {
             return EnumRelogioPontoEstado.Atrasado;
@@ -73,7 +73,7 @@ public class RelogioPonto extends BaseEntity {
 
         long toleranciaMinimo = DateUtils.GetMilisegundos(expediente, -toleranciaEmMilisegundos);
         long toleranciaMaximo = DateUtils.GetMilisegundos(expediente, toleranciaEmMilisegundos);
-        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDoDia());
+        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDesteDia());
 
         if (pontoAtual < IniciDoDia) {
             return EnumRelogioPontoEstado.Atrasado;
@@ -88,7 +88,7 @@ public class RelogioPonto extends BaseEntity {
 
 	public boolean ValidarInconsistente(int quantidadePontosDia) {
         long pontoAtual = DateUtils.GetMilisegundos(this.ponto);
-        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDoDia());
+        long IniciDoDia = DateUtils.GetMilisegundos(DateUtils.IniciDesteDia());
         return pontoAtual > IniciDoDia && this.numeroPontoDia > quantidadePontosDia;
 	}
 }

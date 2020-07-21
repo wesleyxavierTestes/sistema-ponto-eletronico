@@ -1,5 +1,7 @@
 package com.sistemapontoeletronico.infra.repositorys;
 
+import java.time.LocalDateTime;
+
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 
 import org.springframework.data.domain.Page;
@@ -58,5 +60,6 @@ public interface IFuncionarioRepository extends JpaRepository<Funcionario, Long>
                                   +"join public.biometria b "
                                   + "on b.funcionario_id = f.id) "
                                   + "ORDER BY id")
-	Page<Funcionario> findAllFuncionarioBiometriaFaltante(PageRequest of);
+        Page<Funcionario> findAllFuncionarioBiometriaFaltante(PageRequest of);
+        
 }

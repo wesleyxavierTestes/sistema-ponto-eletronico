@@ -1,20 +1,20 @@
 package com.sistemapontoeletronico.domain.services;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Objects;
 
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioSetor;
 import com.sistemapontoeletronico.domain.exceptions.AutorizationInitialException;
 import com.sistemapontoeletronico.domain.services.funcionario.FuncionarioService;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Objects;
 
 @SpringBootTest
 public class FuncionarioServiceTest {
