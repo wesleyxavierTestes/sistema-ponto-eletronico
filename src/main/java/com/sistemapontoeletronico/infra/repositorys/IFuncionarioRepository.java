@@ -1,7 +1,5 @@
 package com.sistemapontoeletronico.infra.repositorys;
 
-import java.time.LocalDateTime;
-
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 
 import org.springframework.data.domain.Page;
