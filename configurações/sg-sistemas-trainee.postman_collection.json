@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "135a147e-33d9-4f70-a1ee-b5ba0ad3e55d",
+		"_postman_id": "7bc4eb33-2e9d-478a-b387-2bfc16d2852b",
 		"name": "sg-sistemas-trainee",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -441,7 +441,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "9836453b-9860-4d34-84a6-16c70a679298",
+								"id": "32464961-44ba-4540-9a04-1bd3eaa68b97",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -451,7 +451,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0032434e-34ac-4bb1-af33-f1a15c5bad78",
+								"id": "f52a87e7-6374-41af-8ff9-0537fb258feb",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -504,13 +504,7 @@
 							"name": "funcionarioINICIAL",
 							"request": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "funcionarioId",
-										"value": "1",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
 									"raw": "{\n    \"nome\": \"administrador1\",\n    \"acesso\": \"senharg123456\",\n    \"biometrias\": null,\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Rh\"\n}",
@@ -521,7 +515,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/funcionario/save?acesso=SecretAdmin123",
+									"raw": "http://localhost:8080/api/funcionario/save/inicial?acesso=SecretAdmin123&funcionario=administrador",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -530,12 +524,17 @@
 									"path": [
 										"api",
 										"funcionario",
-										"save"
+										"save",
+										"inicial"
 									],
 									"query": [
 										{
 											"key": "acesso",
 											"value": "SecretAdmin123"
+										},
+										{
+											"key": "funcionario",
+											"value": "administrador"
 										}
 									]
 								}
@@ -555,7 +554,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"nome\": \"Lorenzo Vitor Lucca Pires\",\n    \"acesso\": null,\n    \"biometrias\": null,\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Geral\"\n}",
+									"raw": "{\n    \"nome\": \"Lorenzo Vitor Lucca Pires\",\n    \"acesso\": \"\",\n    \"biometrias\": null,\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Geral\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -597,7 +596,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": 1,\n    \"nome\": \"administrador1\",\n    \"acesso\": null,\n    \"biometrias\": null,\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Geral\"\n}",
+									"raw": "{\n    \"id\": 2,\n    \"dataCadastro\": \"2020-07-20T22:04:53.728678\",\n    \"nome\": \"Lorenzo Vitor Lucca Pires\",\n    \"biometrias\": [\n        {\n            \"codigo\": \"123456789\"\n        }\n    ],\n    \"acesso\": \"123456\",\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Geral\",\n    \"relogiosPonto\": []\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -642,7 +641,7 @@
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8080/api/funcionario/findAll/2/?acesso=senharg123456",
+									"raw": "http://localhost:8080/api/funcionario/findAll/1/?acesso=senharg123456",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -652,7 +651,41 @@
 										"api",
 										"funcionario",
 										"findAll",
-										"2",
+										"1",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioCount",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/count/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"count",
 										""
 									],
 									"query": [
@@ -688,6 +721,43 @@
 										"funcionario",
 										"findAll",
 										"bloqueado",
+										"1",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioFindAllbiometriaFaltante",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"type": "text",
+										"value": "1"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/findAll/biometria/faltante/1/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"findAll",
+										"biometria",
+										"faltante",
 										"1",
 										""
 									],
@@ -915,7 +985,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": 2,\n    \"limiteQuantidadeAtrasoSemana\": 5,\n    \"minutosTolerancia\": 5,\n    \"inicioExpediente\": \"2020-07-20T09:00:00.879Z\",\n    \"inicioDescanso\": \"2020-07-20T12:00:00.879Z\",\n    \"finalDescanso\": \"2020-07-20T13:00:00.879Z\",\n    \"finalExpediente\": \"2020-07-20T17:00:00.879Z\"\n}",
+									"raw": "{\n    \"id\": 1,\n    \"limiteQuantidadeAtrasoSemana\": 5,\n    \"minutosTolerancia\": 5,\n    \"inicioExpediente\": \"2020-07-20T09:00:00.879Z\",\n    \"inicioDescanso\": \"2020-07-20T12:00:00.879Z\",\n    \"finalDescanso\": \"2020-07-20T13:00:00.879Z\",\n    \"finalExpediente\": \"2020-07-20T17:00:00.879Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1021,7 +1091,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "63aea86c-cfa7-44b4-9187-9fcdec35a325",
+								"id": "ee1e9126-b479-42eb-ac88-fa06c1524098",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1031,7 +1101,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8e90dba3-664d-48f8-8dce-f138f18bf1f0",
+								"id": "f436143c-c89e-42db-83bd-0bfdb1013a0b",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1096,14 +1166,14 @@
 								"method": "POST",
 								"header": [
 									{
-										"key": "funcionarioId",
-										"value": "1",
+										"key": "",
+										"value": "",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"ponto\": \"2020-07-20T17:00:00.092Z\",\n    \"funcionario\": {\n        \"id\": 11,\n        \"nome\": \"Vicente Mateus da Costa\",\n        \"biometrias\": [],\n        \"acesso\": null,\n        \"funcionarioEstado\": \"Ativo\",\n        \"funcionarioSetor\": \"Geral\",\n        \"relogiosPonto\": []\n    }\n}",
+									"raw": "{\n    \"ponto\": \"2020-07-20T09:00:00.092Z\",\n    \"codigoAcesso\": \"123456789\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1111,7 +1181,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/relogioponto/save?acesso=senharg123456",
+									"raw": "http://localhost:8080/api/relogioponto/save/biometria/",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1120,13 +1190,9 @@
 									"path": [
 										"api",
 										"relogioponto",
-										"save"
-									],
-									"query": [
-										{
-											"key": "acesso",
-											"value": "senharg123456"
-										}
+										"save",
+										"biometria",
+										""
 									]
 								}
 							},
@@ -1210,7 +1276,7 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "296ee411-10d4-4492-b33d-c2151b71404d",
+								"id": "47135406-b3fb-42d3-8a01-ba2348de0ce3",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1220,7 +1286,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f42cc50b-e39b-4b18-bec1-f78163621988",
+								"id": "68762c83-61fe-4244-bf2d-200a19e2c7a5",
 								"type": "text/javascript",
 								"exec": [
 									""
