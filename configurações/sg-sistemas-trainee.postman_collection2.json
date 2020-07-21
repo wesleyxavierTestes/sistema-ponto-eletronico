@@ -1,0 +1,1305 @@
+{
+	"info": {
+		"_postman_id": "7bc4eb33-2e9d-478a-b387-2bfc16d2852b",
+		"name": "sg-sistemas-trainee",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "trainne_primeiro",
+			"item": [
+				{
+					"name": "Produto",
+					"item": [
+						{
+							"name": "ProdutoSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Sapato\"\n    , \"valor\": 101.02\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/produto/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProdutoFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/produto/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProdutoFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/produto/findbyid/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"findbyid",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProdutoDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/produto/deletebyid/?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"produto",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Cliente",
+					"item": [
+						{
+							"name": "ClienteSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Monica\",\n    \"cpfCnpj\": \"04271654906\",\n    \"cep\": \"87103292\",\n    \"telefones\": [\n        {\n          \"numero\": \"4498030320\"  \n        }\n    ],\n    \"loja\" : {\n        \"id\":1,\n        \"nome\": \"Casa Calçados\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ClienteFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ClienteFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/findbyid/7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"findbyid",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ClienteDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cliente/deletebyid/?id=7",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cliente",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Loja",
+					"item": [
+						{
+							"name": "LojaSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Casa Calçados\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/loja/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LojaFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/loja/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LojaFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/loja/findbyid/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"findbyid",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LojaDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/loja/deletebyid/?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"loja",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pedido",
+					"item": [
+						{
+							"name": "PedidoSave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Casa Calçados\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"save"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PedidoFindAll",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/findall",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"findall"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PedidoFindById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/findbyid/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"findbyid",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PedidoDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/pedido/deletebyid/?id=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"pedido",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "32464961-44ba-4540-9a04-1bd3eaa68b97",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f52a87e7-6374-41af-8ff9-0537fb258feb",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Utils",
+					"item": [
+						{
+							"name": "ConsultarCep",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/cep/consultar/87103292",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"cep",
+										"consultar",
+										"87103292"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "sistema-ponto-eletronico",
+			"item": [
+				{
+					"name": "funcionario",
+					"item": [
+						{
+							"name": "funcionarioINICIAL",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"administrador1\",\n    \"acesso\": \"senharg123456\",\n    \"biometrias\": null,\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Rh\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/save/inicial?acesso=SecretAdmin123&funcionario=administrador",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"save",
+										"inicial"
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "SecretAdmin123"
+										},
+										{
+											"key": "funcionario",
+											"value": "administrador"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioSave",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nome\": \"Lorenzo Vitor Lucca Pires\",\n    \"acesso\": \"\",\n    \"biometrias\": null,\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Geral\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/save?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"save"
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioUpdate",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 2,\n    \"dataCadastro\": \"2020-07-20T22:04:53.728678\",\n    \"nome\": \"Lorenzo Vitor Lucca Pires\",\n    \"biometrias\": [\n        {\n            \"codigo\": \"123456789\"\n        }\n    ],\n    \"acesso\": \"123456\",\n    \"funcionarioEstado\": \"Ativo\",\n    \"funcionarioSetor\": \"Geral\",\n    \"relogiosPonto\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/update?funcionarioId=1&acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"update"
+									],
+									"query": [
+										{
+											"key": "funcionarioId",
+											"value": "1"
+										},
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioFindAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/findAll/1/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"findAll",
+										"1",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioCount",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/count/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"count",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioFindAllbloqueado",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"type": "text",
+										"value": "1"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/findAll/bloqueado/1/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"findAll",
+										"bloqueado",
+										"1",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioFindAllbiometriaFaltante",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"type": "text",
+										"value": "1"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/findAll/biometria/faltante/1/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"findAll",
+										"biometria",
+										"faltante",
+										"1",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioBloquear",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/bloquear/?acesso=senharg123456&id=11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"bloquear",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										},
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioDesbloquear",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/desbloquear/?acesso=senharg123456&id=11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"desbloquear",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										},
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioFindById",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/findById/?acesso=senharg123456&id=11",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"findById",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										},
+										{
+											"key": "id",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "funcionarioDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/funcionario/deletebyid/?id=1&acesso=senharh123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"funcionario",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										},
+										{
+											"key": "acesso",
+											"value": "senharh123456"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "preDefinicaoPonto",
+					"item": [
+						{
+							"name": "preDefinicaoPontoSave",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"limiteQuantidadeAtrasoSemana\": 10,\n    \"minutosTolerancia\": 5,\n    \"inicioExpediente\": \"2020-07-20T08:00:00.879Z\",\n    \"inicioDescanso\": \"2020-07-20T12:00:00.879Z\",\n    \"finalDescanso\": \"2020-07-20T13:30:00.879Z\",\n    \"finalExpediente\": \"2020-07-20T18:00:00.879Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/predefinicaoponto/save?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"predefinicaoponto",
+										"save"
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "preDefinicaoPontoUpdate",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"limiteQuantidadeAtrasoSemana\": 5,\n    \"minutosTolerancia\": 5,\n    \"inicioExpediente\": \"2020-07-20T09:00:00.879Z\",\n    \"inicioDescanso\": \"2020-07-20T12:00:00.879Z\",\n    \"finalDescanso\": \"2020-07-20T13:00:00.879Z\",\n    \"finalExpediente\": \"2020-07-20T17:00:00.879Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/predefinicaoponto/update?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"predefinicaoponto",
+										"update"
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "preDefinicaoPontoFindAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/predefinicaoponto/findAll/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"predefinicaoponto",
+										"findAll",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "preDefinicaoPontoDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/predefinicaoponto/deletebyid/?id=1&acesso=senharh123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"predefinicaoponto",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										},
+										{
+											"key": "acesso",
+											"value": "senharh123456"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "ee1e9126-b479-42eb-ac88-fa06c1524098",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f436143c-c89e-42db-83bd-0bfdb1013a0b",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "relogioPonto",
+					"item": [
+						{
+							"name": "relogioPontoCount",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 2,\n    \"limiteQuantidadeAtrasoSemana\": 10,\n    \"minutosTolerancia\": 5,\n    \"inicioExpediente\": \"2020-07-20T09:00:00.879Z\",\n    \"inicioDescanso\": \"2020-07-20T12:00:00.879Z\",\n    \"finalDescanso\": \"2020-07-20T13:00:00.879Z\",\n    \"finalExpediente\": \"2020-07-20T17:00:00.879Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/relogioponto/count?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"relogioponto",
+										"count"
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "relogioPontoSave",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ponto\": \"2020-07-20T09:00:00.092Z\",\n    \"codigoAcesso\": \"123456789\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/relogioponto/save/biometria/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"relogioponto",
+										"save",
+										"biometria",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "relogioPontoDelete",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/relogioponto/deletebyid/?id=1&acesso=senharh123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"relogioponto",
+										"deletebyid",
+										""
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "1"
+										},
+										{
+											"key": "acesso",
+											"value": "senharh123456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "relogioPontoFindAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "funcionarioId",
+										"value": "1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/relogioponto/findAll/1/?acesso=senharg123456",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"relogioponto",
+										"findAll",
+										"1",
+										""
+									],
+									"query": [
+										{
+											"key": "acesso",
+											"value": "senharg123456"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "47135406-b3fb-42d3-8a01-ba2348de0ce3",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "68762c83-61fe-4244-bf2d-200a19e2c7a5",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
