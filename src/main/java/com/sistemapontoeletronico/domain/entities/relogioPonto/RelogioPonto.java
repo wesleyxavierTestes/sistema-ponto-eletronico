@@ -4,12 +4,15 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 
 import com.sistemapontoeletronico.domain.enuns.EnumRelogioPontoEstado;
 import com.sistemapontoeletronico.utils.DateUtils;
+
+import org.springframework.lang.NonNull;
+
 import lombok.*;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,19 +24,27 @@ import lombok.Setter;
 @Entity
 public class RelogioPonto extends BaseEntity {
 
+    public RelogioPonto(LocalDateTime ponto, String nomeFuncionario) {
+        super();
+        this.setPonto(ponto);
+        this.setNomeFuncionario(nomeFuncionario);
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
-    @JsonInclude
-    @Transient
-    private Funcionario funcionario;
+    @JsonIgnore
+    protected Funcionario funcionario;
+
+    protected String NomeFuncionario;
 
     @Column(nullable = false)
-    private LocalDateTime ponto;
+    @NonNull
+    protected LocalDateTime ponto;
 
     @Enumerated(EnumType.STRING)
-    private EnumRelogioPontoEstado relogioPontoEstado;
+    protected EnumRelogioPontoEstado relogioPontoEstado;
     
-    private boolean inconsistente;
+    protected boolean inconsistente;
 
     public EnumRelogioPontoEstado ValidarEstaAtrasadoInicio(LocalDateTime expediente, long toleranciaMinutos) {
         long toleranciaEmMilisegundos = DateUtils.GetMilisegundosPorMinutos(toleranciaMinutos);

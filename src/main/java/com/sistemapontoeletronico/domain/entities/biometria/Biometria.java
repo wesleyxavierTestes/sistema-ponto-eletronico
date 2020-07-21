@@ -1,5 +1,6 @@
 package com.sistemapontoeletronico.domain.entities.biometria;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import lombok.AllArgsConstructor;
@@ -20,5 +21,6 @@ public class Biometria extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
+    @JsonIgnore
     private Funcionario funcionario;
 }

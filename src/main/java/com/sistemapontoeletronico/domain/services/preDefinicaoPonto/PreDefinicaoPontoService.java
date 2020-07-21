@@ -22,7 +22,7 @@ public class PreDefinicaoPontoService extends BaseService<PreDefinicaoPonto> {
 
     public PreDefinicaoPonto find() {
         List<PreDefinicaoPonto> listaEntity = this._repository.findAll();
-        if (Objects.nonNull(listaEntity)) return listaEntity.get(0);
+        if (Objects.nonNull(listaEntity) && listaEntity.size() > 0) return listaEntity.get(0);
         return null;
     }
 }

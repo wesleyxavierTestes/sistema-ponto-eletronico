@@ -1,7 +1,6 @@
 package com.sistemapontoeletronico.domain.services;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
@@ -20,7 +19,6 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
     public Page<T> findAll(int pagina) {
         Page<T> lista = this._repository.findAll(PageRequest.of((pagina - 1), 10));
         if (!Objects.nonNull(lista)) return null;
-        List<T> listaEntity = lista.toList();
         return lista;
     }
 
@@ -52,6 +50,7 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
     public T save(T entity) {
         boolean exists = this._repository.existsById(entity.getId());
         if (exists) return null;
+        entity.setDataCadastro(LocalDateTime.now());
         this._repository.save(entity);
         return entity;
     }
@@ -60,7 +59,6 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
     public T update(T entity) {
         boolean exists = this._repository.existsById(entity.getId());
         if (!exists) return null;
-        entity.setDataCadastro(LocalDateTime.now());
         return this._repository.save(entity);
     }
 

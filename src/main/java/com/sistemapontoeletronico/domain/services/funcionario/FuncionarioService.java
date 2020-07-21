@@ -3,14 +3,20 @@ package com.sistemapontoeletronico.domain.services.funcionario;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.criteria.Order;
+
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
+import com.sistemapontoeletronico.domain.enuns.EnumTipoOperacao;
+import com.sistemapontoeletronico.domain.exceptions.AutorizationInitialException;
 import com.sistemapontoeletronico.domain.services.BaseService;
 import com.sistemapontoeletronico.infra.repositorys.IFuncionarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,27 +28,34 @@ public class FuncionarioService extends BaseService<Funcionario> {
         _repository = repository;
     }
 
-    public boolean validaFuncionarioAutorizado(final long funcionarioId, final String acesso) {
+    public boolean validaFuncionarioAutorizado
+    (final long funcionarioId, final String acesso) throws AutorizationInitialException {
         boolean exists = false;
         try {
             exists  = this._repository.existsByIdRh(funcionarioId, acesso) > 0;
         } catch (final Exception e) {
             System.out.println(e);
         }
-        if (!exists) {
-            if (isExistRh()) return false;
-            return validaFuncionarioPadraoAutorizado(acesso);
+
+        if (!exists && this.count() == 0) {
+            throw new AutorizationInitialException("Sistema sem Usuários com permissão.");
         }
         return exists;
+    }
+
+    public boolean validaFuncionarioAutorizadoPadrao(final String nome, final String acesso)throws AutorizationInitialException{        
+        if (isExistRh()) throw new AutorizationInitialException("");
+        return validaFuncionarioPadraoAutorizado(nome, acesso);
     }
 
     public boolean isExistRh() {
         return this._repository.countRh() > 0;
     }
 
-    public boolean validaFuncionarioPadraoAutorizado(final String acesso) {
-        final boolean temAcesso = Funcionario.FuncionarioPadrao().getAcesso().equals(acesso);
-        return temAcesso;
+    public boolean validaFuncionarioPadraoAutorizado(final String nome, final String acesso) {
+        final boolean acessoOk = Funcionario.FuncionarioPadrao().getAcesso().equals(acesso);
+        final boolean nomeOk = Funcionario.FuncionarioPadrao().getNome().equals(nome);
+        return acessoOk && nomeOk;
     }
 
     public void bloquearFuncionario(Funcionario funcionario, final boolean bloquear) {
@@ -54,19 +67,30 @@ public class FuncionarioService extends BaseService<Funcionario> {
         this.update(funcionario);
     }
 
-	public List<Funcionario> findAllFuncionarioEstado(final EnumFuncionarioEstado funcionario_estado, int pagina) {
-        List<Funcionario> lista = new ArrayList<>();
+	public Page<Funcionario> findAllFuncionarioEstado(
+        final EnumFuncionarioEstado funcionario_estado, int pagina) {
 
-        lista = this._repository.findAllFuncionarioEstado(
-            funcionario_estado.toString(),
+        Page<Funcionario> lista = this._repository.findAllFuncionarioEstado(
+            funcionario_estado.toString(), PageRequest.of((pagina - 1), 10)
+            );        
+        return lista;
+	}
+
+	public Funcionario findByCodigoAcesso(String codigoAcesso, EnumTipoOperacao tipoOperacao) {
+        if (codigoAcesso == null || codigoAcesso.isEmpty() || codigoAcesso.isBlank()) return null;
+
+        Funcionario funcionario = tipoOperacao == EnumTipoOperacao.biometria
+        ? this._repository.findByCodigoAcessoBiometria(codigoAcesso)
+        : this._repository.findByCodigoAcessoManual(codigoAcesso);
+
+        return funcionario;
+	}
+
+	public Page<Funcionario> findAllFuncionarioBiometriaFaltante(int pagina) {
+        Page<Funcionario> funcionarios =  
+        this._repository.findAllFuncionarioBiometriaFaltante(
             PageRequest.of((pagina - 1), 10)
-            );
-
-        // this._repository.findAll()
-        // .stream()
-        // .filter(c -> c.getFuncionarioEstado() == funcionario_estado)
-        // .forEach(lista::add);
-        
-        return (List<Funcionario>)lista;
+        );
+        return funcionarios;
 	}
 }

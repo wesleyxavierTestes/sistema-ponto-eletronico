@@ -8,6 +8,9 @@ import com.sistemapontoeletronico.domain.entities.biometria.Biometria;
 import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioSetor;
+
+import org.springframework.lang.NonNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,13 +29,14 @@ public class Funcionario extends BaseEntity {
     public static Funcionario FuncionarioPadrao() {
         Funcionario funcionarioPadrao = new Funcionario();
         funcionarioPadrao.funcionarioSetor = EnumFuncionarioSetor.Rh;
-        funcionarioPadrao.nome = "Admin";
+        funcionarioPadrao.nome = "administrador";
         funcionarioPadrao.acesso = "SecretAdmin123";
 
         return funcionarioPadrao;
     }
 
     @Column(nullable = false)
+    @NonNull
     private String nome;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -40,18 +44,23 @@ public class Funcionario extends BaseEntity {
     @Column(nullable = true)
     private List<Biometria> biometrias;
 
-    @Column(nullable = true)
+    @Column(nullable = false, unique = true)
+    @NonNull
     private String acesso;
+
+    private boolean acessoBloqueado;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NonNull
     private EnumFuncionarioEstado funcionarioEstado;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @NonNull
     private EnumFuncionarioSetor funcionarioSetor;
 
-    @OneToMany(cascade = CascadeType.ALL)//, mappedBy="funcionario")
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
     private List<RelogioPonto> relogiosPonto;
 

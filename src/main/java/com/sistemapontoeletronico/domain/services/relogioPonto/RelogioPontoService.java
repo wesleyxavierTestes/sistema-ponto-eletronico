@@ -1,5 +1,6 @@
 package com.sistemapontoeletronico.domain.services.relogioPonto;
 
+import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;
 import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
 import com.sistemapontoeletronico.domain.enuns.EnumRelogioPontoEstado;
@@ -34,26 +35,25 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
                     preDefinicao.getMinutosTolerancia()
             );
                 break;
-            // case 2:
-                // relogioPontoEstado = entity.ValidarEstaAtrasadoInicio(
-                //         preDefinicao.getInicioDescanso(),
-                //         preDefinicao.getMinutosTolerancia()
-                // );
-                //break;
+            case 2:
+                relogioPontoEstado = entity.ValidarEstaAtrasadoInicio(
+                        preDefinicao.getInicioDescanso(),
+                        preDefinicao.getMinutosTolerancia()
+                );
+                break;
 
-            // case 3:
-                // relogioPontoEstado = entity.ValidarEstaAtrasadoFinal(
-                //         preDefinicao.getFinalDescanso(),
-                //         preDefinicao.getMinutosTolerancia()
-                // );
-               // break;
-            // case 4:
-                // relogioPontoEstado = entity.ValidarEstaAtrasadoFinal(
-                //         preDefinicao.getFinalExpediente(),
-                //         preDefinicao.getMinutosTolerancia()
-                // );
-                //break;
-
+            case 3:
+                relogioPontoEstado = entity.ValidarEstaAtrasadoFinal(
+                        preDefinicao.getFinalDescanso(),
+                        preDefinicao.getMinutosTolerancia()
+                );
+               break;
+            case 4:
+                relogioPontoEstado = entity.ValidarEstaAtrasadoFinal(
+                        preDefinicao.getFinalExpediente(),
+                        preDefinicao.getMinutosTolerancia()
+                );
+                break;
             default:
                 relogioPontoEstado = EnumRelogioPontoEstado.NoHorario;
                 break;
@@ -90,4 +90,10 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
     public int pontoNumeroDia(long funcionarioId) {
         return (int)countPontoHoje(funcionarioId) + 1;
     }
+
+	public void configureSave(RelogioPonto entity, Funcionario funcionario) {
+        entity.setFuncionario(funcionario);
+        entity.setInconsistente(false);
+        entity.setRelogioPontoEstado(EnumRelogioPontoEstado.NoHorario);
+	}
 }
