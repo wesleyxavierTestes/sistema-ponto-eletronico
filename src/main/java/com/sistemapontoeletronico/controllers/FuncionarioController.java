@@ -30,7 +30,7 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "count")
-    public ResponseEntity<?> count(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>count(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -46,7 +46,7 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "findAll/{pagina}")
-    public ResponseEntity<?> findAll(@PathVariable(name = "pagina") int pagina,
+    public ResponseEntity<Object>findAll(@PathVariable(name = "pagina") int pagina,
             @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -62,7 +62,7 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "findAll/biometria/faltante/{pagina}")
-    public ResponseEntity<?> findAllbiometria(@PathVariable(name = "pagina") int pagina,
+    public ResponseEntity<Object>findAllbiometria(@PathVariable(name = "pagina") int pagina,
             @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -79,7 +79,7 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "findAll/bloqueado/{pagina}")
-    public ResponseEntity<?> findAllbloqueado(@PathVariable(name = "pagina") int pagina,
+    public ResponseEntity<Object>findAllbloqueado(@PathVariable(name = "pagina") int pagina,
             @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -96,7 +96,7 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "findById")
-    public ResponseEntity<?> findById(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>findById(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -115,7 +115,7 @@ public class FuncionarioController {
     }
 
     @PostMapping(path = "save/inicial")
-    public ResponseEntity<?> saveinicial(@RequestParam(name = "funcionario") String funcionario,
+    public ResponseEntity<Object>saveinicial(@RequestParam(name = "funcionario") String funcionario,
             @RequestParam(name = "acesso") String acesso, @RequestBody @Validated Funcionario entity) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizadoPadrao(funcionario, acesso);
@@ -138,7 +138,7 @@ public class FuncionarioController {
     }
 
     @PostMapping(path = "save")
-    public ResponseEntity<?> save(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>save(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestBody @Validated Funcionario entity) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -160,7 +160,7 @@ public class FuncionarioController {
     }
 
     @PutMapping(path = "update")
-    public ResponseEntity<?> update(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>update(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestBody @Validated Funcionario entity) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -179,7 +179,7 @@ public class FuncionarioController {
     }
 
     @DeleteMapping(path = "deleteById")
-    public ResponseEntity<?> deleteById(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>deleteById(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -198,7 +198,7 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "desbloquear")
-    public ResponseEntity<?> desbloquear(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>desbloquear(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -211,7 +211,7 @@ public class FuncionarioController {
                 return ResponseEntity.ok("Usuário inexistente");
             if (entity.getId() == funcionarioId)
                 return ResponseEntity.ok("Usuário não pode executar esta ação");
-            if (!entity.EstaBloqueado())
+            if (!entity.validaEstaBloqueado())
                 return ResponseEntity.ok("Usuário não está bloqueado");
 
             this._serviceFuncionario.bloquearFuncionario(entity, false);
@@ -223,7 +223,7 @@ public class FuncionarioController {
     }
 
     @GetMapping(path = "bloquear")
-    public ResponseEntity<?> bloquear(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>bloquear(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -236,7 +236,7 @@ public class FuncionarioController {
                 return ResponseEntity.ok("Usuário inexistente");
             if (entity.getId() == funcionarioId)
                 return ResponseEntity.ok("Usuário não pode executar esta ação");
-            if (entity.EstaBloqueado())
+            if (entity.validaEstaBloqueado())
                 return ResponseEntity.ok("Usuário não está ativo");
 
             this._serviceFuncionario.bloquearFuncionario(entity, true);

@@ -16,7 +16,12 @@ public class BiometriaService extends BaseService<Biometria> {
         _repository = repository;
     }
 
-    public Long findFuncionarioIdByBiometriaCodigo(String codigo) {
-        return this._repository.findFuncionarioIdByBiometriaCodigo(codigo);
+    /**
+     * 
+     * @param codigoBiometia da biometria
+     * @return Tipo Long de Contagem
+     */
+    public Long findFuncionarioIdByBiometriaCodigo(String codigoBiometia) {
+        return this._repository.findFuncionarioIdByBiometriaCodigo(codigoBiometia);
     }
 }

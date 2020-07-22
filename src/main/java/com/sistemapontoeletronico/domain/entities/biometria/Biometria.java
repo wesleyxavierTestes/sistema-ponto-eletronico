@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sistemapontoeletronico.domain.entities.BaseEntity;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor

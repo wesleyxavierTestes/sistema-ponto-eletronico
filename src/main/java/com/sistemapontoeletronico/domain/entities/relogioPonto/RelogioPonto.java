@@ -17,6 +17,7 @@ import lombok.*;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -35,7 +36,7 @@ public class RelogioPonto extends BaseEntity {
     @JsonIgnore
     protected Funcionario funcionario;
 
-    protected String NomeFuncionario;
+    protected String nomeFuncionario;
 
     @Column(nullable = false)
     @NonNull
@@ -48,7 +49,7 @@ public class RelogioPonto extends BaseEntity {
 
     protected int numeroPontoDia;
 
-    public EnumRelogioPontoEstado ValidarEstaAtrasadoInicio(LocalDateTime expediente, long toleranciaMinutos) {
+    public EnumRelogioPontoEstado validarEstaAtrasadoInicio(LocalDateTime expediente, long toleranciaMinutos) {
         long toleranciaEmMilisegundos = DateUtils.GetMilisegundosPorMinutos(toleranciaMinutos);
         long pontoAtual = DateUtils.GetMilisegundos(this.ponto);
 

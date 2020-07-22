@@ -28,6 +28,10 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
         _repository = repository;
     }
 
+    /**
+     * @param entity
+     * @param preDefinicao
+     */
     public void ConfigurarEstaAtrasadoInconsistencia(RelogioPonto entity, PreDefinicaoPonto preDefinicao) {
         entity.setNumeroPontoDia(this.pontoNumeroDia(entity.getFuncionario().getId()));
 
@@ -37,18 +41,18 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
         if (!inconsistente) {
             switch (entity.getNumeroPontoDia()) {
                 case 1:
-                    relogioPontoEstado = entity.ValidarEstaAtrasadoInicio(
+                    relogioPontoEstado = entity.validarEstaAtrasadoInicio(
                             DateUtils.ConfigurarExpedienteDia(preDefinicao.getInicioExpediente()),
                             preDefinicao.getMinutosTolerancia());
                     break;
                 case 2:
-                    relogioPontoEstado = entity.ValidarEstaAtrasadoInicio(
+                    relogioPontoEstado = entity.validarEstaAtrasadoInicio(
                             DateUtils.ConfigurarExpedienteDia(preDefinicao.getInicioDescanso()),
                             preDefinicao.getMinutosTolerancia());
                     break;
 
                 case 3:
-                    relogioPontoEstado = entity.ValidarEstaAtrasadoInicio(
+                    relogioPontoEstado = entity.validarEstaAtrasadoInicio(
                             DateUtils.ConfigurarExpedienteDia(preDefinicao.getFinalDescanso()),
                             preDefinicao.getMinutosTolerancia());
                     break;
@@ -66,6 +70,11 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
         entity.setInconsistente(inconsistente);
     }
 
+    /**
+     * @param funcionarioId
+     * @param preDefinicaoPonto
+     * @return
+     */
     public boolean ValidarLimiteAtraso(long funcionarioId, PreDefinicaoPonto preDefinicaoPonto) {
         long countPontoSemanaAtrasado = countPontoSemanaAtrasado(funcionarioId);
         long limite = preDefinicaoPonto.getLimiteQuantidadeAtrasoSemana();
@@ -100,60 +109,60 @@ public class RelogioPontoService extends BaseService<RelogioPonto> {
                 finalIntervalo);
 
         int totalDias = finalIntervalo.getDayOfMonth() - inicioIntervalo.getDayOfMonth();
-        for (long idFuncionario : idSFuncionario) {
-            for (int i = 0; i <= totalDias; i++) {
+        // for (long idFuncionario : idSFuncionario) {
+        //     for (int i = 0; i <= totalDias; i++) {
                 
-                List<RelogioPonto> pontos = this._repository.relogioPontoIntervalo(
-                        DateUtils.AddDays(inicioIntervalo, 0), 
-                        DateUtils.AddDays(inicioIntervalo, 1), 
-                        idFuncionario);
+        //         List<RelogioPonto> pontos = this._repository.relogioPontoIntervalo(
+        //                 DateUtils.AddDays(inicioIntervalo, 0), 
+        //                 DateUtils.AddDays(inicioIntervalo, 1), 
+        //                 idFuncionario);
 
-                String nomeFuncionario = this._repository.findNomeFuncionario(idFuncionario);
+        //         String nomeFuncionario = this._repository.findNomeFuncionario(idFuncionario);
 
-                List<LocalDateTime> todosPontos = new ArrayList<>();
-                pontos.stream().map(c-> c.getPonto()).forEach(todosPontos::add);
+        //         List<LocalDateTime> todosPontos = new ArrayList<>();
+        //         pontos.stream().map(c-> c.getPonto()).forEach(todosPontos::add);
 
-                if (pontos.size() > 2) {
-                    RelogioPonto entradaExpediente = pontos.get(0);
-                    RelogioPonto saidaExpediente = pontos.get(pontos.size() - 1);
+        //         if (pontos.size() > 2) {
+        //             RelogioPonto entradaExpediente = pontos.get(0);
+        //             RelogioPonto saidaExpediente = pontos.get(pontos.size() - 1);
 
-                    //// LOGICA PARA CALCULOS DE TOTAL HORAS
-                    LocalTime horas = DateUtils.ContarTotalHoras(entradaExpediente, saidaExpediente);
-                    listaDiaDtos.add(HoraDiaDto
-                                    .builder()
-                                    .nome(nomeFuncionario)
-                                    .pontos(todosPontos)
-                                    .totalHoras(horas)
-                                    .build());
+        //             //// LOGICA PARA CALCULOS DE TOTAL HORAS
+        //             LocalTime horas = DateUtils.ContarTotalHoras(entradaExpediente, saidaExpediente);
+        //             listaDiaDtos.add(HoraDiaDto
+        //                             .builder()
+        //                             .nome(nomeFuncionario)
+        //                             .pontos(todosPontos)
+        //                             .totalHoras(horas)
+        //                             .build());
 
-                    pontos.remove(entradaExpediente);
-                    pontos.remove(saidaExpediente);
-                }
+        //             pontos.remove(entradaExpediente);
+        //             pontos.remove(saidaExpediente);
+        //         }
 
-                if (!pontos.isEmpty()) {
-                    if (pontos.size() % 2 != 0) {
-                        // LÓGICA PARA ADD QUANDO NÃO HOUVER MAIS PAR DE PONTOS VÁLIDOS
-                        listaDiaDtos.add(new HoraDiaDto());
-                    } else {
-                        // LÓGICA PARA ADD QUANDO HOUVER MAIS PAR DE PONTOS VÁLIDOS
+        //         if (!pontos.isEmpty()) {
+        //             if (pontos.size() % 2 != 0) {
+        //                 // LÓGICA PARA ADD QUANDO NÃO HOUVER MAIS PAR DE PONTOS VÁLIDOS
+        //                 listaDiaDtos.add(new HoraDiaDto());
+        //             } else {
+        //                 // LÓGICA PARA ADD QUANDO HOUVER MAIS PAR DE PONTOS VÁLIDOS
 
-                        for (int j = 0; j < pontos.size(); j = j+2) {
-                            RelogioPonto entrada = pontos.get(j);
-                            RelogioPonto saida = pontos.get(j + 1);
+        //                 for (int j = 0; j < pontos.size(); j = j+2) {
+        //                     RelogioPonto entrada = pontos.get(j);
+        //                     RelogioPonto saida = pontos.get(j + 1);
 
-                            //// LOGICA PARA CALCULOS DE TOTAL HORAS
-                            LocalTime horas = DateUtils.ContarTotalHoras(entrada, saida);
-                            listaDiaDtos.add(HoraDiaDto
-                                            .builder()
-                                            .nome(nomeFuncionario)
-                                            .pontos(todosPontos)
-                                            .totalHoras(horas)
-                                            .build());
-                        }
-                    }
-                }
-            }
-        }
+        //                     //// LOGICA PARA CALCULOS DE TOTAL HORAS
+        //                     LocalTime horas = DateUtils.ContarTotalHoras(entrada, saida);
+        //                     listaDiaDtos.add(HoraDiaDto
+        //                                     .builder()
+        //                                     .nome(nomeFuncionario)
+        //                                     .pontos(todosPontos)
+        //                                     .totalHoras(horas)
+        //                                     .build());
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         return listaDiaDtos;
     }

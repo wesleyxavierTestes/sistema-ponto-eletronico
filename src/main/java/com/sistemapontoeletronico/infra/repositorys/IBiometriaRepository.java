@@ -8,6 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IBiometriaRepository extends JpaRepository<Biometria, Long>{
 
+    /**
+     * Busca a Biometria com base no código da mesma
+     * @return Id do funcionário da biometria
+     */
     @Query(
             nativeQuery = true,
             value = "select u.funcionario_id from public.biometria as u " +

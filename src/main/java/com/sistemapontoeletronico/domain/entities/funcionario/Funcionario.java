@@ -12,12 +12,14 @@ import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioSetor;
 import org.springframework.lang.NonNull;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,8 +27,11 @@ import java.util.List;
 @Entity
 public class Funcionario extends BaseEntity {
 
-    /* Usuário poderá ser usado se não houver nenhum cadastrado no sistema; */
-    public static Funcionario FuncionarioPadrao() {
+    /**
+     * Usuário poderá ser usado se não houver nenhum cadastrado no sistema;
+     * @return Funcionario
+     */
+    public static Funcionario funcionarioPadrao() {
         Funcionario funcionarioPadrao = new Funcionario();
         funcionarioPadrao.funcionarioSetor = EnumFuncionarioSetor.Rh;
         funcionarioPadrao.nome = "administrador";
@@ -64,12 +69,11 @@ public class Funcionario extends BaseEntity {
     @JoinColumn(name = "funcionario_id", referencedColumnName = "id")
     private List<RelogioPonto> relogiosPonto;
 
-    public boolean ValidarSetorEspecifico(EnumFuncionarioSetor setor) {
-        boolean valido = this.funcionarioSetor == setor;
-        return valido;
+    public boolean validarSetorEspecifico(EnumFuncionarioSetor setor) {
+        return this.funcionarioSetor == setor;
     }
 
-    public boolean EstaBloqueado() {
+    public boolean validaEstaBloqueado() {
         return this.funcionarioEstado == EnumFuncionarioEstado.Bloqueado;
     }
 }

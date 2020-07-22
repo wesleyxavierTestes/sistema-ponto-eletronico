@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.sistemapontoeletronico.domain.dto.AcessoDto;
 import com.sistemapontoeletronico.domain.dto.HoraDiaDto;
+import com.sistemapontoeletronico.domain.dto.ResponseEntityDto;
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.entities.preDefinicaoPonto.PreDefinicaoPonto;
 import com.sistemapontoeletronico.domain.entities.relogioPonto.RelogioPonto;
@@ -38,28 +39,28 @@ public class RelogioPontoController {
     }
 
     @GetMapping(path = "count")
-    public ResponseEntity<?> count(@RequestHeader(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso) {
+    public ResponseEntity<Object>count(@RequestHeader(name = "funcionarioId") final long funcionarioId,
+            @RequestParam(name = "acesso") final String acesso) {
         try {
-            boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+            final boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
             if (!funcionarioAutorizado)
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-            long count = this._serviceRelogioPonto.count();
+            final long count = this._serviceRelogioPonto.count();
             return ResponseEntity.ok(count);
-        } catch (AutorizationInitialException e) {
+        } catch (final AutorizationInitialException e) {
             return ResponseEntity.ok(e.getMessage());
         }
     }
 
     @GetMapping(path = "findAll/horas")
-    public ResponseEntity<?> findAllHoras(
-            @RequestHeader(name = "funcionarioId") long funcionarioId, 
-            @RequestParam(name = "acesso") String acesso,
-            @RequestParam(name = "intervaloinicio") String intervaloinicio,
-            @RequestParam(name = "intervalofinal") String intervalofinal
+    public ResponseEntity<Object>findAllHoras(
+            @RequestHeader(name = "funcionarioId") final long funcionarioId, 
+            @RequestParam(name = "acesso") final String acesso,
+            @RequestParam(name = "intervaloinicio") final String intervaloinicio,
+            @RequestParam(name = "intervalofinal") final String intervalofinal
             ) {
         try {
-            boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+            final boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
             if (!funcionarioAutorizado)
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
@@ -69,16 +70,16 @@ public class RelogioPontoController {
                LocalDateTime.parse(intervalofinal));
 
             return ResponseEntity.ok(lista);
-        } catch (AutorizationInitialException e) {
+        } catch (final AutorizationInitialException e) {
             return ResponseEntity.ok(e.getMessage());
         }
     }
 
     @GetMapping(path = "findAll/{pagina}")
-    public ResponseEntity<?> findAll(@PathVariable(name = "pagina") int pagina,
-            @RequestHeader(name = "funcionarioId") long funcionarioId, @RequestParam(name = "acesso") String acesso) {
+    public ResponseEntity<Object>findAll(@PathVariable(name = "pagina") final int pagina,
+            @RequestHeader(name = "funcionarioId") final long funcionarioId, @RequestParam(name = "acesso") final String acesso) {
         try {
-            boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+            final boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
             if (!funcionarioAutorizado)
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
@@ -88,27 +89,43 @@ public class RelogioPontoController {
             });
 
             return ResponseEntity.ok(list);
-        } catch (AutorizationInitialException e) {
+        } catch (final AutorizationInitialException e) {
             return ResponseEntity.ok(e.getMessage());
         }
     }
 
+    /**
+     * @apiNote 
+     * @param tipoOperacao
+     * @param acesso
+     * @return
+     */
     @PostMapping(path = "save/{tipoOperacao}")
-    public ResponseEntity<?> save(@PathVariable(name = "tipoOperacao") EnumTipoOperacao tipoOperacao,
-            @RequestBody @Validated AcessoDto acesso) {
+    public ResponseEntity<ResponseEntityDto> save(@PathVariable(name = "tipoOperacao") final EnumTipoOperacao tipoOperacao,
+            @RequestBody @Validated final AcessoDto acesso) {
         try {
-            PreDefinicaoPonto preDefinicao = this._servicePreDefinicaoPonto.find();
+            final PreDefinicaoPonto preDefinicao = this._servicePreDefinicaoPonto.find();
             if (!Objects.nonNull(preDefinicao))
-                return ResponseEntity.ok("Pré definição não definida");
+                return ResponseEntity.ok(ResponseEntityDto
+                .builder()
+                .valido(false)
+                .erro("Pré definição não definida")
+                .build());
 
-            Funcionario funcionario = this._serviceFuncionario.findByCodigoAcesso(acesso.codigoAcesso, tipoOperacao);
+            final Funcionario funcionario = this._serviceFuncionario.findByCodigoAcesso(acesso.codigoAcesso, tipoOperacao);
 
             if (!Objects.nonNull(funcionario))
-                return ResponseEntity.ok("Usuário sem Autorização");
-            if (funcionario.EstaBloqueado())
-                return ResponseEntity.ok("Usuário Bloqueado");
+                return ResponseEntity.ok(ResponseEntityDto
+                .builder()
+                .erro("Usuário sem Autorização")
+                .build());
+            if (funcionario.validaEstaBloqueado())
+                return ResponseEntity.ok(ResponseEntityDto
+                .builder()
+                .erro("Usuário Bloqueado")
+                .build());
 
-            RelogioPonto entity = new RelogioPonto(acesso.ponto, funcionario.getNome());
+            final RelogioPonto entity = new RelogioPonto(acesso.ponto, funcionario.getNome());
 
             this._serviceRelogioPonto.configureSave(entity, funcionario);
             this._serviceRelogioPonto.ConfigurarEstaAtrasadoInconsistencia(entity, preDefinicao);
@@ -116,35 +133,52 @@ public class RelogioPontoController {
             if (!Objects.nonNull(this._serviceRelogioPonto.save(entity)))
                 return ResponseEntity.badRequest().build();
 
-            boolean bloquear = this._serviceRelogioPonto.ValidarLimiteAtraso(funcionario.getId(), preDefinicao);
+            final boolean bloquear = this._serviceRelogioPonto.ValidarLimiteAtraso(funcionario.getId(), preDefinicao);
 
             if (bloquear) {
                 this._serviceFuncionario.bloquearFuncionario(funcionario, bloquear);
-                return ResponseEntity.ok("Usuário está bloqueado para novo registro, Procure o RH para desbloqueio");
+                return ResponseEntity.ok(ResponseEntityDto
+                .builder()
+                .erro("Usuário está bloqueado para novo registro, Procure o RH para desbloqueio")
+                .build());
             }
 
-            return ResponseEntity.ok(entity);
+            return ResponseEntity.ok(ResponseEntityDto
+            .builder()
+            .valido(true)
+            .objeto(entity)
+            .build());
 
-        } catch (Exception e) {
-            return ResponseEntity.ok(e.getMessage());
+        } catch (final Exception e) {
+            return ResponseEntity.ok(ResponseEntityDto
+            .builder()
+            .erro(e.getMessage())
+            .build());
         }
     }
 
+    /**
+     * 
+     * @param funcionarioId
+     * @param acesso
+     * @param id
+     * @return
+     */
     @DeleteMapping(path = "deleteById")
-    public ResponseEntity<?> deleteById(@RequestHeader(name = "funcionarioId") long funcionarioId,
-            @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
+    public ResponseEntity<Object>deleteById(@RequestHeader(name = "funcionarioId") final long funcionarioId,
+            @RequestParam(name = "acesso") final String acesso, @RequestParam(name = "id") final long id) {
         try {
-            boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
+            final boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
             if (!funcionarioAutorizado)
                 return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 
-            boolean deleted = this._serviceRelogioPonto.deleteById(id);
+            final boolean deleted = this._serviceRelogioPonto.deleteById(id);
 
             if (!deleted)
                 return ResponseEntity.badRequest().build();
 
             return ResponseEntity.ok(deleted);
-        } catch (AutorizationInitialException e) {
+        } catch (final AutorizationInitialException e) {
             return ResponseEntity.ok(e.getMessage());
         }
     }

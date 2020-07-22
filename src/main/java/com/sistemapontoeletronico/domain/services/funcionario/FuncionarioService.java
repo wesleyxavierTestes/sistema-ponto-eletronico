@@ -1,5 +1,4 @@
 package com.sistemapontoeletronico.domain.services.funcionario;
-import java.time.LocalDateTime;
 
 import com.sistemapontoeletronico.domain.entities.funcionario.Funcionario;
 import com.sistemapontoeletronico.domain.enuns.EnumFuncionarioEstado;
@@ -48,8 +47,8 @@ public class FuncionarioService extends BaseService<Funcionario> {
     }
 
     public boolean validaFuncionarioPadraoAutorizado(final String nome, final String acesso) {
-        final boolean acessoOk = Funcionario.FuncionarioPadrao().getAcesso().equals(acesso);
-        final boolean nomeOk = Funcionario.FuncionarioPadrao().getNome().equals(nome);
+        final boolean acessoOk = Funcionario.funcionarioPadrao().getAcesso().equals(acesso);
+        final boolean nomeOk = Funcionario.funcionarioPadrao().getNome().equals(nome);
         return acessoOk && nomeOk;
     }
 

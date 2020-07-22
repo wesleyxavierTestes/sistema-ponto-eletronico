@@ -2,6 +2,7 @@ package com.sistemapontoeletronico.infra.data;
 
 import javax.sql.DataSource;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,5 +43,10 @@ public class DataSourceConfigure {
         adapter.setDatabasePlatform(databasePlatform);
         adapter.setPrepareConnection(prepareConnection);
         return adapter;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

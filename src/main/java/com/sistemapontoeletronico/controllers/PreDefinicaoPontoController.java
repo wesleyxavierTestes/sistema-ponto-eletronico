@@ -27,7 +27,7 @@ public class PreDefinicaoPontoController {
     }
 
     @GetMapping(path = "findAll")
-    public ResponseEntity<?> findAll(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>findAll(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -44,7 +44,7 @@ public class PreDefinicaoPontoController {
     }
 
     @PostMapping(path = "save")
-    public ResponseEntity<?> save(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>save(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestBody PreDefinicaoPonto entity) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -67,7 +67,7 @@ public class PreDefinicaoPontoController {
     }
 
     @PutMapping(path = "update")
-    public ResponseEntity<?> update(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>update(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestBody PreDefinicaoPonto entity) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);
@@ -84,7 +84,7 @@ public class PreDefinicaoPontoController {
     }
 
     @DeleteMapping(path = "deleteById")
-    public ResponseEntity<?> deleteById(@RequestHeader(name = "funcionarioId") long funcionarioId,
+    public ResponseEntity<Object>deleteById(@RequestHeader(name = "funcionarioId") long funcionarioId,
             @RequestParam(name = "acesso") String acesso, @RequestParam(name = "id") long id) {
         try {
             boolean funcionarioAutorizado = this._serviceFuncionario.validaFuncionarioAutorizado(funcionarioId, acesso);

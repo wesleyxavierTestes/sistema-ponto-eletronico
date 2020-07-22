@@ -57,7 +57,7 @@ private PreDefinicaoPonto preDefinicao;
         preDefinicao.setMinutosTolerancia(toleranciaMinutos);
         relogioPonto.setPonto(ponto);
 
-        EnumRelogioPontoEstado validarEstaAtrasadoInicio = relogioPonto.ValidarEstaAtrasadoInicio(
+        EnumRelogioPontoEstado validarEstaAtrasadoInicio = relogioPonto.validarEstaAtrasadoInicio(
                 preDefinicao.getInicioExpediente(),
                 preDefinicao.getMinutosTolerancia());
 
